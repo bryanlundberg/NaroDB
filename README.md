@@ -23,22 +23,22 @@ import { AquaBase } from 'aquabase';
 const db = new AquaBase();
 
 // Basic usage
-await db.add('/users', { name: 'John Doe', age: 30 })
+await db.add('users', { name: 'John Doe', age: 30 })
 // Output: { aid: t9y7ee2xvpr5fq99mkuj name: 'John Doe', age: 30 }
 
-await db.getAll('/users')
+await db.getAll('users')
 // Output:  [
 // { aid: "t9y7ee2xvpr5fq99", "name": "John Doe", "age": 30 },
 // { aid: "vbn87wsjiqk34u5p", "name": "Jane Doe", "age": 25 }
 // ]
 
-await db.get('/users/t9y7ee2xvpr5fq99mkuj')
+await db.get('users/t9y7ee2xvpr5fq99mkuj')
 // Output: { aid: t9y7ee2xvpr5fq99mkuj name: 'John Doe', age: 30 }
 
-await users.update("t9y7ee2xvpr5fq99mkuj", { age: 31 });
+await db.update("users/t9y7ee2xvpr5fq99mkuj", { age: 31 });
 // Output: { aid: t9y7ee2xvpr5fq99mkuj name: 'John Doe', age: 31 }
 
-await users.delete("t9y7ee2xvpr5fq99mkuj");
+await db.delete("users/t9y7ee2xvpr5fq99mkuj");
 // Output: { aid: t9y7ee2xvpr5fq99mkuj name: 'John Doe', age: 31 }
 ```
 
