@@ -45,4 +45,4 @@ await users.delete("t9y7ee2xvpr5fq99mkuj");
 ## License
 
 This project is licensed under the Server Side Public License. For more details, check
-the [LICENSE](https://github.com/bryanlundberg/NexusTimer/blob/main/LICENSE) file.
+the [LICENSE](https://github.com/bryanlundberg/AquaBase/blob/main/LICENSE.txt) file.
