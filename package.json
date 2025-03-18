@@ -8,10 +8,13 @@
     "dev:node": "npx tsx ./src/index.ts"
   },
   "dependencies": {
-    "bson": "^6.10.3"
+    "bson": "^6.10.3",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.6.0",
     "@types/fs-extra": "^11.0.4",
+    "@types/lodash": "^4.17.16",
     "fs-extra": "^11.3.0",
     "tsx": "^4.19.3"
   }
