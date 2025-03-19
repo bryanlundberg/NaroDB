@@ -1,11 +1,11 @@
 import fs from 'fs-extra';
-import { ObjectId } from "bson";
-import { findIndex, find } from 'lodash';
+import _ from 'lodash';
+import msgpack from "msgpack-lite";
 
 export class AquaBase {
   private rootPath: string = "./data";
   private readonly dbName: string;
-  private readonly logFileName: string = "data.json";
+  private readonly logFileName: string = "data.bin";
   private collections: { [key: string]: any } = {};
 
   constructor(dbName: string) {
@@ -26,7 +26,8 @@ export class AquaBase {
       if (fs.lstatSync(folderPath).isDirectory()) {
         const dataPath = `${folderPath}/${this.logFileName}`;
         if (fs.existsSync(dataPath)) {
-          this.collections[folderName] = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+          const binaryData = fs.readFileSync(dataPath);
+          this.collections[folderName] = msgpack.decode(binaryData);
         } else {
           this.collections[folderName] = [];
         }
@@ -39,9 +40,13 @@ export class AquaBase {
   }
 
   add(collectionName: string, data: any) {
-    const newItem = { ...data, id: new ObjectId().toHexString() };
+    const newItem = { ...data, id: this.generateId() };
     this.collections[collectionName].push(newItem);
     return structuredClone(newItem);
+  }
+
+  private generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
   }
 
   getAll(collectionName: string) {
@@ -51,7 +56,7 @@ export class AquaBase {
   get(path: string) {
     const { collectionName, collectionId } = this.validatePath(path);
     // TODO: Implement subCollection support
-    return find(this.collections[collectionName] || [], (item: any) => item.id === collectionId) || undefined;
+    return _.find(this.collections[collectionName] || [], (item: any) => item.id === collectionId) || undefined;
   }
 
   private validatePath(path: string) {
@@ -71,7 +76,7 @@ export class AquaBase {
     const collection = this.collections[collectionName];
     if (!collection) throw new Error("Collection not found");
 
-    const itemIndex = findIndex(collection, (item: any) => item.id === collectionId);
+    const itemIndex = _.findIndex(collection, (item: any) => item.id === collectionId);
     if (itemIndex === -1) throw new Error("Item not found");
 
     collection[itemIndex] = { ...collection[itemIndex], ...data };
@@ -82,7 +87,7 @@ export class AquaBase {
     const collection = this.collections[collectionName];
     if (!collection) throw new Error("Collection not found");
 
-    const itemIndex = findIndex(collection, (item: any) => item.id === collectionId);
+    const itemIndex = _.findIndex(collection, (item: any) => item.id === collectionId);
     if (itemIndex === -1) throw new Error("Item not found");
 
     collection.splice(itemIndex, 1);
@@ -91,7 +96,8 @@ export class AquaBase {
   writeToFile() {
     Object.keys(this.collections).forEach(collectionName => {
       const dataPath = `${this.getPathToDB()}/${collectionName}/${this.logFileName}`;
-      fs.writeFileSync(dataPath, JSON.stringify(this.collections[collectionName]));
+      const binaryData = msgpack.encode(this.collections[collectionName]);
+      fs.writeFileSync(dataPath, binaryData);
     });
   }
 }
