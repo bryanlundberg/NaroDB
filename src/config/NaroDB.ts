@@ -2,7 +2,7 @@ import fs from 'fs-extra';
 import _ from 'lodash';
 import msgpack from "msgpack-lite";
 
-export class AquaBase {
+export class NaroDB {
   private rootPath: string = "./data";
   private readonly dbName: string;
   private readonly logFileName: string = "data.bin";

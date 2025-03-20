@@ -1,7 +1,7 @@
-import { AquaBase } from "./config/AquaBase.ts";
+import { NaroDB } from "./config/NaroDB.ts";
 import { faker } from "@faker-js/faker/locale/en";
 
-const db = new AquaBase("67d89f7d91e2ee84a95e4b0c");
+const db = new NaroDB("67d89f7d91e2ee84a95e4b0c");
 
 // console.log(db.getAll("users"));
 console.time("test");

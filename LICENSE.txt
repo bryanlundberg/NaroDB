@@ -500,7 +500,7 @@
 
   14. Revised Versions of this License.
 
-  ZoraDB, may publish revised and/or new versions of the Server Side
+  NaroDB, may publish revised and/or new versions of the Server Side
   Public License from time to time. Such new versions will be similar in
   spirit to the present version, but may differ in detail to address new
   problems or concerns.
@@ -509,9 +509,9 @@
   specifies that a certain numbered version of the Server Side Public
   License “or any later version” applies to it, you have the option of
   following the terms and conditions either of that numbered version or of
-  any later version published by ZoraDB. If the Program does not
+  any later version published by NaroDB. If the Program does not
   specify a version number of the Server Side Public License, you may
-  choose any version ever published by ZoraDB.
+  choose any version ever published by NaroDB.
 
   If the Program specifies that a proxy can decide which future versions of
   the Server Side Public License can be used, that proxy's public statement

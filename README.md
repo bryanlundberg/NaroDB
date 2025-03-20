@@ -2,14 +2,14 @@
 
 <img src=".github/logo_light.png">
 
-**AquaBase** is an experimental project designed to simplify databases usage.
+**NaroDB** is an experimental project designed to simplify databases usage.
 
 Principles:
 
 - Must be extremely easy to use and understand.
-- Must use paths for access, similar to file systems and most API core concepts.
-    - Basic collection:  `#db/users -> [...users]`
-    - Sub-collections:   `#db/users/:userId/logs/:logId -> { userId : [...logs] } -> [...logs]`
+- Must-use paths for access, similar to file systems and most API core concepts.
+  - Basic collection:  `#db/users -> [...users]`
+  - Sub-collections:   `#db/users/:userId/logs/:logId -> { userId : [...logs] } -> [...logs]`
 - Must initialize and maintain a data clone in memory.
 - Must allow any type of data to be stored and replaced (responsibility relies on the user's use of
   types/interfaces/schemas).
@@ -26,10 +26,10 @@ Principles:
 ## Sample
 
 ```javascript
-import { AquaBase } from 'aquabase';
+import { NaroDB } from 'narodb';
 
 // Initialize the database
-const db = new AquaBase();
+const db = new NaroDB();
 
 // Basic usage
 await db.add('users', { name: 'John Doe', age: 30 })
