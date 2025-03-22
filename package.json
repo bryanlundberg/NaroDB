@@ -1,6 +1,8 @@
 {
-  "name": "narodb",
+  "name": "@bryanlundberg/narodb",
   "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "version": "0.0.1",
   "type": "module",
   "description": "A simple, fast, and lightweight NoSQL database",
@@ -24,7 +26,8 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "build": "tsc",
-    "clean": "rm -rf dist",
+    "clean": "rmdir /s /q dist",
+    "build:clean": "npm run clean && npm run build",
     "publish:private": "npm publish --access restricted"
   },
   "dependencies": {
