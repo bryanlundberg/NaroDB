@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from "vitest";
 import { ensureDirSync, pathExistsSync, removeSync, writeFileSync } from "fs-extra";
-import { NaroFiler } from "../../../src/config/NaroFiler";
+import { NaroFiler } from "../../../src/manage-files/NaroFiler";
 import { DIRNAME_MOCK, FILENAME_MOCK } from "../../constants";
 
 afterEach(() => {

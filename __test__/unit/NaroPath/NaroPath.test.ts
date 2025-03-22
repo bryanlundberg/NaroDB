@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { NaroPath } from "../../../src/config/NaroPath";
+import { NaroPath } from "../../../src/manage/paths/NaroPath";
 import { COLLECTION_NAME, SUB_COLLECTION_NAME } from "../../constants";
 
 describe("NaroPath, should validate paths are well structured", () => {
