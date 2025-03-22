@@ -1,8 +1,23 @@
 {
   "name": "narodb",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.1",
   "type": "module",
+  "description": "A simple, fast, and lightweight NoSQL database",
+  "keywords": [
+    "database",
+    "nosql",
+    "json",
+    "fast",
+    "lightweight"
+  ],
+  "author": "Bryan Lundberg",
+  "license": "SSPL",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bryanlundberg/NaroDB"
+  },
+  "homepage": "https://github.com/bryanlundberg/NaroDB",
   "scripts": {
     "dev:bun": "bun ./src/index.ts",
     "dev:node": "npx tsx ./src/index.ts",
