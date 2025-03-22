@@ -52,10 +52,6 @@ export class Naro {
     this.collectionManager.updateCollection(collectionName, collection);
   }
 
-  writeToFile() {
-    this.collectionManager.saveCollections();
-  }
-
   private generateId() {
     return Date.now().toString(36) + Math.random().toString(36).slice(2, 11);
   }

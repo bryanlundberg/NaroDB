@@ -1,8 +1,15 @@
 {
-  "name": "@bryanlundberg/narodb",
+  "name": "narodb",
   "private": true,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
   "version": "0.0.1",
   "type": "module",
   "description": "A simple, fast, and lightweight NoSQL database",
@@ -25,21 +32,21 @@
     "dev:node": "npx tsx ./src/index.ts",
     "test": "vitest",
     "test:watch": "vitest --watch",
-    "build": "tsc",
     "clean": "rmdir /s /q dist",
-    "build:clean": "npm run clean && npm run build",
-    "publish:private": "npm publish --access restricted"
+    "build:esm": "tsc --project tsconfig.json",
+    "build": "npm run clean && npm run build:esm"
   },
   "dependencies": {
+    "fs-extra": "^11.3.0",
     "lodash": "^4.17.21",
-    "msgpack-lite": "^0.1.26"
+    "msgpack-lite": "^0.1.26",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.6.0",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.16",
     "@types/msgpack-lite": "^0.1.11",
-    "fs-extra": "^11.3.0",
     "tsc": "^2.0.4",
     "tsx": "^4.19.3",
     "vitest": "^3.0.9"
