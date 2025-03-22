@@ -5,11 +5,22 @@
     "declaration": true,
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": "./src",
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "Node",
-    "allowImportingTsExtensions": false
+    "allowImportingTsExtensions": false,
+    "paths": {
+      "@/*": [
+        "*"
+      ]
+    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*",
+    "tests/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -1,6 +1,7 @@
 import fs from "fs-extra";
 import msgpack from "msgpack-lite";
-import { NaroFiler } from "../manage/files/NaroFiler";
+import { NaroFiler } from "@/manage/files/NaroFiler";
+
 
 export class CollectionManager {
   private rootPath: string;

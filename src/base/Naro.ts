@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { CollectionManager } from "../db-operations/CollectionManager";
-import { NaroPath } from "../manage/paths/NaroPath";
+import { CollectionManager } from "@/db-operations/CollectionManager";
+import { NaroPath } from "@/manage/paths/NaroPath";
+
 
 export class Naro {
   private readonly dbName: string;
