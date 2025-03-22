@@ -1,26 +1,38 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS",
-    "declaration": true,
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "moduleResolution": "Node",
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": "./src",
+    "declaration": true,
     "strict": true,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "Node",
-    "allowImportingTsExtensions": false,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "baseUrl": "./src",
     "paths": {
-      "@/*": [
-        "*"
-      ]
-    }
+      "@/*": ["src/*"]
+    },
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "allowJs": false,
+    "noEmit": false
   },
   "include": [
     "src/**/*",
-    "tests/**/*"
+    "tests/**/*",
+    "*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.js",
+    "dist",
+    "*.config.ts",
+    "*.config.js"
   ]
 }

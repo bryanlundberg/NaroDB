@@ -24,7 +24,8 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "clean": "rm -rf dist",
+    "publish:private": "npm publish --access restricted"
   },
   "dependencies": {
     "lodash": "^4.17.21",
