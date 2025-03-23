@@ -1,17 +1,15 @@
 {
   "name": "narodb",
   "private": true,
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/types/index.d.ts"
-    }
+    "require": "./dist/cjs/index.js",
+    "import": "./dist/esm/index.js"
   },
+  "types": "./dist/types/index.d.ts",
   "version": "0.0.1",
-  "type": "module",
+  "type": "commonjs",
   "description": "A simple, fast, and lightweight NoSQL database",
   "keywords": [
     "database",
@@ -20,6 +18,9 @@
     "fast",
     "lightweight"
   ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "author": "Bryan Lundberg",
   "license": "SSPL",
   "repository": {
@@ -33,8 +34,9 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "clean": "rmdir /s /q dist",
-    "build:esm": "tsc --project tsconfig.json",
-    "build": "npm run clean && npm run build:esm"
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm"
   },
   "dependencies": {
     "fs-extra": "^11.3.0",
