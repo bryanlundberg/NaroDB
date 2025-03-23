@@ -41,14 +41,13 @@
   "dependencies": {
     "fs-extra": "^11.3.0",
     "lodash": "^4.17.21",
-    "msgpack-lite": "^0.1.26",
+    "notepack.io": "^3.0.1",
     "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.6.0",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.16",
-    "@types/msgpack-lite": "^0.1.11",
     "vitest": "^3.0.9"
   }
 }
