@@ -2,15 +2,20 @@ import fs from "fs-extra";
 import msgpack from "msgpack-lite";
 import { NaroFiler } from "../manage/files/NaroFiler";
 
-export class CollectionManager {
-  private rootPath: string;
+export class Core {
+  private readonly rootPath: string;
   private collections: { [key: string]: any } = {};
-  private logFileName: string;
+  private logFileName: string = "data.bin";
 
-  constructor(rootPath: string, logFileName: string = "data.bin") {
+  constructor(rootPath: string) {
     this.rootPath = rootPath;
-    this.logFileName = logFileName;
     NaroFiler.ensureDirectory(this.rootPath);
+    this.loadCollections();
+    return this;
+  }
+
+  getStore() {
+    return this.collections;
   }
 
   loadCollections() {
