@@ -42,7 +42,7 @@ export class Core {
     this.collections[name] = data;
   }
 
-  saveCollections() {
+  writeCollections() {
     Object.keys(this.collections).forEach((collectionName) => {
       const collectionPath = `${this.rootPath}/${collectionName}`;
       NaroFiler.ensureDirectory(collectionPath);
