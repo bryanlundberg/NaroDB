@@ -8,39 +8,39 @@ export class Core {
 
   constructor(rootPath: string) {
     this.rootPath = rootPath;
-    NaroFiler.ensureDirectory(this.rootPath);
-    this.loadCollections();
-    return this;
+  }
+
+  async initialize() {
+    await NaroFiler.ensureDirectory(this.rootPath);
+    await this.loadCollections();
   }
 
   getStructuredCollections() {
     return this.collections;
   }
 
-  loadCollections() {
-    NaroFiler.listDirectories(this.rootPath).forEach((folderName) => {
+ async loadCollections() {
+    const directories = await NaroFiler.listDirectories(this.rootPath);
+
+    for (const folderName of directories) {
       const folderPath = `${this.rootPath}/${folderName}`;
       const dataPath = `${folderPath}/${this.logFileName}`;
-      if (fs.existsSync(dataPath)) {
-        this.collections[folderName] = NaroFiler.readBinaryFile(dataPath)
-      } else {
-        this.collections[folderName] = [];
-      }
-    });
+
+      await fs.ensureFile(dataPath);
+      this.collections[folderName] = await NaroFiler.readBinaryFile(dataPath);
+    }
   }
 
   getCollection(name: string): any[] {
-    if (!this.collections[name]) {
-      this.collections[name] = [];
-    }
+    if (!this.collections[name]) return this.collections[name] = [];
     return this.collections[name];
   }
 
   updateCollection(name: string, data: any[]) {
-    this.collections[name] = data;
+    this.collections[name] = JSON.parse(JSON.stringify(data));
   }
 
-  writeCollections() {
+  async writeCollections() {
     Object.keys(this.collections).forEach((collectionName) => {
       const collectionPath = `${this.rootPath}/${collectionName}`;
       NaroFiler.ensureDirectory(collectionPath);
