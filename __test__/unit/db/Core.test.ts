@@ -1,13 +1,13 @@
-import { afterAll, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test } from "vitest";
 import { Core } from "../../../src/db/Core";
 import { COLLECTION_NAME, DIRNAME_MOCK, FILENAME_MOCK, USERS_MOCK } from "../../../src/constants/constants-test";
 import { ensureFileSync, removeSync } from "fs-extra";
 import { NaroFiler } from "../../../src";
 
-afterAll(() => removeSync(DIRNAME_MOCK))
+afterEach(() => removeSync(DIRNAME_MOCK));
 
 describe("Core", () => {
-  test("loadCollections should correctly load data from all existing folders into memory", () => {
+  test("loadCollections should load data from all existing base collections", () => {
     const createFilePath = (collectionSuffix: string) =>
       `${DIRNAME_MOCK}/${COLLECTION_NAME}${collectionSuffix}/${FILENAME_MOCK}`;
 
@@ -23,9 +23,15 @@ describe("Core", () => {
 
     const core = new Core(DIRNAME_MOCK);
 
-    expect(core.getStore()).toEqual({
+    expect(core.getStructuredCollections()).toEqual({
       [COLLECTION_NAME + "1"]: filePaths[0].data,
       [COLLECTION_NAME + "2"]: filePaths[1].data
     });
+  });
+
+  test("getStructuredCollections should return an empty object if the database is empty", () => {
+    const core = new Core(DIRNAME_MOCK);
+    console.log(core.getStructuredCollections());
+    expect(core.getStructuredCollections()).toEqual({});
   });
 });

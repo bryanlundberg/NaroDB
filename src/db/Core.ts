@@ -14,7 +14,7 @@ export class Core {
     return this;
   }
 
-  getStore() {
+  getStructuredCollections() {
     return this.collections;
   }
 
