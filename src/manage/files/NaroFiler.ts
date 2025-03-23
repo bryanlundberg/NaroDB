@@ -10,7 +10,8 @@ export class NaroFiler {
     if (!fs.existsSync(path)) {
       throw new Error(`File at path ${path} does not exist.`);
     }
-    return fs.readFileSync(path);
+    const data = fs.readFileSync(path);
+    return msgpack.decode(data);
   }
 
   static writeBinaryFile(path: string, data: any): void {

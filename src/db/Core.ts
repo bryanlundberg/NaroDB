@@ -1,5 +1,4 @@
 import fs from "fs-extra";
-import msgpack from "msgpack-lite";
 import { NaroFiler } from "../manage/files/NaroFiler";
 
 export class Core {
@@ -23,8 +22,7 @@ export class Core {
       const folderPath = `${this.rootPath}/${folderName}`;
       const dataPath = `${folderPath}/${this.logFileName}`;
       if (fs.existsSync(dataPath)) {
-        const binaryData = NaroFiler.readBinaryFile(dataPath);
-        this.collections[folderName] = msgpack.decode(binaryData);
+        this.collections[folderName] = NaroFiler.readBinaryFile(dataPath)
       } else {
         this.collections[folderName] = [];
       }

@@ -1,9 +1,10 @@
-import { afterEach, describe, expect, test } from "vitest";
+import { beforeEach, describe, expect, test } from "vitest";
 import { ensureDirSync, pathExistsSync, removeSync, writeFileSync } from "fs-extra";
 import { NaroFiler } from "../../../src";
-import { DIRNAME_MOCK, FILENAME_MOCK } from "../../../src/constants/constants-test";
+import { DIRNAME_MOCK, FILENAME_MOCK, USERS_MOCK } from "../../../src/constants/constants-test";
+import msgpack from "msgpack-lite";
 
-afterEach(() => {
+beforeEach(() => {
   removeSync(DIRNAME_MOCK);
 });
 
@@ -19,15 +20,15 @@ describe("NaroFiler", () => {
     ensureDirSync(DIRNAME_MOCK);
     NaroFiler.writeBinaryFile(filePath, data);
     expect(pathExistsSync(filePath)).toBe(true);
-  })
+  });
 
   test("readBinaryFile", () => {
     const filePath = `${DIRNAME_MOCK}/${FILENAME_MOCK}`;
-    const data = Buffer.from([0x01, 0x02, 0x03]);
+    const data = msgpack.encode([...USERS_MOCK]);
     ensureDirSync(DIRNAME_MOCK);
     writeFileSync(filePath, data);
     const result = NaroFiler.readBinaryFile(filePath);
-    expect(result).toEqual(data);
+    expect(result).toEqual([...USERS_MOCK]);
   });
 
   test("listDirectories", () => {
