@@ -1,43 +1,46 @@
 import fs from "fs-extra";
-import msgpack from "msgpack-lite";
 import { NaroFiler } from "../manage/files/NaroFiler";
 
-export class CollectionManager {
-  private rootPath: string;
+export class Core {
+  private readonly rootPath: string;
   private collections: { [key: string]: any } = {};
-  private logFileName: string;
+  private logFileName: string = "data.bin";
 
-  constructor(rootPath: string, logFileName: string = "data.bin") {
+  constructor(rootPath: string) {
     this.rootPath = rootPath;
-    this.logFileName = logFileName;
-    NaroFiler.ensureDirectory(this.rootPath);
   }
 
-  loadCollections() {
-    NaroFiler.listDirectories(this.rootPath).forEach((folderName) => {
+  async initialize() {
+    await NaroFiler.ensureDirectory(this.rootPath);
+    await this.loadCollections();
+  }
+
+  getStructuredCollections() {
+    return this.collections;
+  }
+
+ async loadCollections() {
+    const directories = await NaroFiler.listDirectories(this.rootPath);
+
+    for (const folderName of directories) {
       const folderPath = `${this.rootPath}/${folderName}`;
       const dataPath = `${folderPath}/${this.logFileName}`;
-      if (fs.existsSync(dataPath)) {
-        const binaryData = NaroFiler.readBinaryFile(dataPath);
-        this.collections[folderName] = msgpack.decode(binaryData);
-      } else {
-        this.collections[folderName] = [];
-      }
-    });
+
+      await fs.ensureFile(dataPath);
+      this.collections[folderName] = await NaroFiler.readBinaryFile(dataPath);
+    }
   }
 
   getCollection(name: string): any[] {
-    if (!this.collections[name]) {
-      this.collections[name] = [];
-    }
+    if (!this.collections[name]) return this.collections[name] = [];
     return this.collections[name];
   }
 
   updateCollection(name: string, data: any[]) {
-    this.collections[name] = data;
+    this.collections[name] = JSON.parse(JSON.stringify(data));
   }
 
-  saveCollections() {
+  async writeCollections() {
     Object.keys(this.collections).forEach((collectionName) => {
       const collectionPath = `${this.rootPath}/${collectionName}`;
       NaroFiler.ensureDirectory(collectionPath);
