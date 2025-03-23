@@ -1,11 +1,11 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 import { Core } from "../../../src/db/Core";
 import { COLLECTION_NAME, DIRNAME_MOCK, FILENAME_MOCK, USERS_MOCK } from "../../../src/constants/constants-test";
-import fs from "fs-extra";
 import { NaroFiler } from "../../../src";
+import { remove } from "fs-jetpack";
 
-beforeEach(() => fs.removeSync(DIRNAME_MOCK),100);
-afterEach(() => fs.removeSync(DIRNAME_MOCK),100);
+beforeEach(() => remove(DIRNAME_MOCK), 1000);
+afterEach(() => remove(DIRNAME_MOCK), 1000);
 
 describe("Core", () => {
   const createFilePath = (collectionSuffix: string) =>
@@ -18,19 +18,17 @@ describe("Core", () => {
     ];
 
     for (const { path, data } of files) {
-      await fs.ensureFile(path);
       await NaroFiler.writeBinaryFile(path, data);
     }
 
     const core = new Core(DIRNAME_MOCK);
     await core.initialize();
 
-    expect(core.getStructuredCollections()).toEqual(
-      expect.objectContaining({
-        [COLLECTION_NAME + "1"]: files[0].data,
-        [COLLECTION_NAME + "2"]: files[1].data
-      })
-    );
+    expect(core.getStructuredCollections()).toEqual({
+      [COLLECTION_NAME + "1"]: files[0].data,
+      [COLLECTION_NAME + "2"]: files[1].data
+    });
+
   });
 
   test("getStructuredCollections should return an empty object if the database is empty", () => {
@@ -45,7 +43,6 @@ describe("Core", () => {
     ];
 
     for (const { path, data } of files) {
-      await fs.ensureFile(path);
       await NaroFiler.writeBinaryFile(path, data);
     }
 
@@ -68,7 +65,6 @@ describe("Core", () => {
     const data = [...USERS_MOCK];
     const path = `${DIRNAME_MOCK}/${COLLECTION_NAME}/${FILENAME_MOCK}`;
 
-    await fs.ensureFile(path);
     await NaroFiler.writeBinaryFile(path, data);
 
     const core = new Core(DIRNAME_MOCK);

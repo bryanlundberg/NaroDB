@@ -1,41 +1,23 @@
-import fs from "fs-extra";
 import msgpack from "notepack.io";
+import { dirAsync, inspectTreeAsync, readAsync, writeAsync } from "fs-jetpack";
 
 export class NaroFiler {
   static async ensureDirectory(path: string): Promise<void> {
-    await fs.ensureDir(path);
+    await dirAsync(path);
   }
 
   static async readBinaryFile(path: string): Promise<any[]> {
-    try {
-      if (!(await fs.pathExists(path))) {
-        await this.writeBinaryFile(path, []);
-      }
-
-      const decode = await fs.readFile(path);
-      return msgpack.decode(decode);
-
-    } catch (error) {
-      throw new Error(`Failed to read binary file at ${path}: ${(error as Error).message}`);
-    }
+      const data = await readAsync(path, "buffer");
+      return data ? msgpack.decode(data) : [];
   }
 
   static async writeBinaryFile(path: string, data: any[]): Promise<void> {
-    await fs.outputFile(path, msgpack.encode(data || []), {
-      encoding: "binary"
-    });
+    return await writeAsync(path, msgpack.encode(data));
   }
 
-  static async listDirectories(path: string): Promise<string[]> {
-    const entries = await fs.readdir(path);
-    const directories: string[] = [];
-    for (const subPath of entries) {
-      const fullPath = `${path}/${subPath}`;
-      if ((await (fs.lstat(fullPath))).isDirectory()) {
-        directories.push(subPath);
-      }
-    }
-
-    return directories;
+  static async listDirectories(path: string){
+    const directory = await inspectTreeAsync(path)
+    if (!directory) return [];
+    return directory.children.filter((child) => child.type === "dir").map((child) => child.name);
   }
 }

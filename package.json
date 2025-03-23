@@ -39,14 +39,13 @@
     "build": "npm run clean && npm run build:cjs && npm run build:esm"
   },
   "dependencies": {
-    "fs-extra": "^11.3.0",
+    "fs-jetpack": "^5.1.0",
     "lodash": "^4.17.21",
     "notepack.io": "^3.0.1",
     "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.6.0",
-    "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.16",
     "vitest": "^3.0.9"
   }

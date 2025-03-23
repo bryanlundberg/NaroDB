@@ -1,5 +1,5 @@
-import fs from "fs-extra";
 import { NaroFiler } from "../manage/files/NaroFiler";
+import { fileAsync } from "fs-jetpack";
 
 export class Core {
   private readonly rootPath: string;
@@ -26,9 +26,11 @@ export class Core {
       const folderPath = `${this.rootPath}/${folderName}`;
       const dataPath = `${folderPath}/${this.logFileName}`;
 
-      await fs.ensureFile(dataPath);
+      await fileAsync(dataPath);
       this.collections[folderName] = await NaroFiler.readBinaryFile(dataPath);
     }
+
+    return this.collections;
   }
 
   getCollection(name: string): any[] {

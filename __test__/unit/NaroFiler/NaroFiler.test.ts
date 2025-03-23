@@ -1,15 +1,16 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
-import fs from "fs-extra";
+import { remove, existsAsync, dirAsync } from "fs-jetpack";
 import { NaroFiler } from "../../../src";
 import { COLLECTION_NAME, DIRNAME_MOCK, FILENAME_MOCK, USERS_MOCK } from "../../../src/constants/constants-test";
 
-beforeEach(() => fs.removeSync(DIRNAME_MOCK), 1000);
-afterEach(() => fs.removeSync(DIRNAME_MOCK), 1000);
+beforeEach(() => remove(DIRNAME_MOCK), 1000);
+afterEach(() => remove(DIRNAME_MOCK), 1000);
 
 describe("NaroFiler", () => {
   test("ensureDirectory", async () => {
     await NaroFiler.ensureDirectory(DIRNAME_MOCK);
-    expect(await fs.pathExists(DIRNAME_MOCK)).toBe(true);
+    const existsDir = await existsAsync(DIRNAME_MOCK);
+    expect(existsDir).toBe("dir");
   });
 
   test("writeBinaryFile", async () => {
@@ -30,8 +31,8 @@ describe("NaroFiler", () => {
   test("listDirectories", async () => {
     const subDir1 = `${DIRNAME_MOCK}/subdir1`;
     const subDir2 = `${DIRNAME_MOCK}/subdir2`;
-    await fs.ensureDir(subDir1);
-    await fs.ensureDir(subDir2);
+    await dirAsync(subDir1);
+    await dirAsync(subDir2);
     const result = await NaroFiler.listDirectories(DIRNAME_MOCK);
     expect(result).toEqual(["subdir1", "subdir2"]);
   });
