@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { CollectionManager } from "./CollectionManager.ts";
-import { NaroPath } from "./NaroPath.ts";
+import { CollectionManager } from "../db-operations/CollectionManager";
+import { NaroPath } from "../manage/paths/NaroPath";
 
 export class Naro {
   private readonly dbName: string;
@@ -14,7 +14,6 @@ export class Naro {
     const rootPath = `./data/${this.dbName}`;
     this.collectionManager = new CollectionManager(rootPath);
     this.collectionManager.loadCollections();
-    console.log(this.collectionManager)
   }
 
   add(collectionName: string, data: any) {
@@ -53,11 +52,7 @@ export class Naro {
     this.collectionManager.updateCollection(collectionName, collection);
   }
 
-  writeToFile() {
-    this.collectionManager.saveCollections();
-  }
-
   private generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 11);
   }
 }
