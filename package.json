@@ -47,8 +47,6 @@
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.16",
     "@types/msgpack-lite": "^0.1.11",
-    "tsc": "^2.0.4",
-    "tsx": "^4.19.3",
     "vitest": "^3.0.9"
   }
 }

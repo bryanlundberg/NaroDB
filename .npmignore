@@ -4,6 +4,10 @@ __test__/
 test/
 coverage/
 data/
+examples/
+docs/
+.github/
+*.tgz
 
 *.log
 *.lock
