@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
-import { Core } from "../../../src/db/Core";
+import { Core } from "../../../src/core/Core";
 import { COLLECTION_NAME, DIRNAME_MOCK, FILENAME_MOCK, USERS_MOCK } from "../../../src/constants/constants-test";
 import { NaroFiler } from "../../../src";
 import { remove } from "fs-jetpack";
