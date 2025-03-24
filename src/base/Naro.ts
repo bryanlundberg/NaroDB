@@ -7,13 +7,13 @@ export class Naro {
   private readonly core: Core;
 
   constructor(dbName: string) {
-    if (dbName.includes('/')) {
-      throw new Error("dbName cannot contain '/'");
-    }
+    if (dbName.includes('/')) throw new Error("dbName cannot contain '/'");
     this.dbName = dbName;
     const rootPath = `./data/${this.dbName}`;
     this.core = new Core(rootPath);
-    this.core.loadCollections();
+    this.core.initialize().catch(error => {
+      throw new Error(`Failed to initialize core: ${error.message}`);
+    });
   }
 
   add(collectionName: string, data: any) {
