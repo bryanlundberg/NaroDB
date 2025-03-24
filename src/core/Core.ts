@@ -21,15 +21,12 @@ export class Core {
 
  async loadCollections() {
     const directories = await NaroFiler.listDirectories(this.rootPath);
-
     for (const folderName of directories) {
       const folderPath = `${this.rootPath}/${folderName}`;
       const dataPath = `${folderPath}/${this.logFileName}`;
-
       await fileAsync(dataPath);
       this.collections[folderName] = await NaroFiler.readBinaryFile(dataPath);
     }
-
     return this.collections;
   }
 
