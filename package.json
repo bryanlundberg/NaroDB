@@ -36,7 +36,8 @@
     "clean": "rmdir /s /q dist",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.esm.json",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm"
+    "build": "npm run clean && npm run build:cjs && npm run build:esm",
+    "pack": "npm run build && npm pack"
   },
   "dependencies": {
     "fs-jetpack": "^5.1.0",
