@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { Core } from "../db/Core";
+import { Core } from "../core/Core";
 import { NaroPath } from "../manage/paths/NaroPath";
+import { NaroId } from "../utils/IdGenerator";
 
 export class Naro {
   private readonly dbName: string;
@@ -18,7 +19,7 @@ export class Naro {
 
   add(collectionName: string, data: any) {
     const collection = this.core.getCollection(collectionName);
-    const newItem = { ...data, id: this.generateId() };
+    const newItem = { ...data, id: NaroId.generate() };
     collection.push(newItem);
     this.core.updateCollection(collectionName, collection);
     return structuredClone(newItem);
@@ -50,9 +51,5 @@ export class Naro {
     if (itemIndex === -1) throw new Error("Item not found");
     collection.splice(itemIndex, 1);
     this.core.updateCollection(collectionName, collection);
-  }
-
-  private generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).slice(2, 11);
   }
 }
