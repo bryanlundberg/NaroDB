@@ -29,7 +29,7 @@ export class Naro {
     return this.core.getCollection(collectionName);
   }
 
-  get(path: string) {
+  async get(path: string) {
     const { collectionName, collectionId } = NaroPath.validate(path);
     const collection = this.core.getCollection(collectionName);
     return _.find(collection, (item: any) => item.id === collectionId) || undefined;
