@@ -35,13 +35,14 @@ export class Naro {
     return _.find(collection, (item: any) => item.id === collectionId) || undefined;
   }
 
-  update(path: string, data: any) {
+  async update(path: string, data: any): Promise<NaroDocument> {
     const { collectionName, collectionId } = NaroPath.validate(path);
     const collection = this.core.getCollection(collectionName);
     const itemIndex = _.findIndex(collection, (item: any) => item.id === collectionId);
     if (itemIndex === -1) throw new Error("Item not found");
     collection[itemIndex] = { ...collection[itemIndex], ...data };
     this.core.updateCollection(collectionName, collection);
+    return collection[itemIndex]
   }
 
   delete(path: string) {
