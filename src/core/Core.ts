@@ -1,5 +1,6 @@
 import { NaroFiler } from "../manage/files/NaroFiler";
 import { fileAsync } from "fs-jetpack";
+import { cloneDeep } from "lodash";
 
 export class Core {
   private readonly rootPath: string;
@@ -36,7 +37,7 @@ export class Core {
   }
 
   updateCollection(name: string, data: any[]) {
-    this.collections[name] = JSON.parse(JSON.stringify(data));
+    this.collections[name] = cloneDeep(data)
   }
 
   async writeCollections() {
