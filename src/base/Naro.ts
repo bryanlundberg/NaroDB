@@ -45,11 +45,11 @@ export class Naro {
     return collection[itemIndex]
   }
 
-  delete(path: string) {
+  async delete(path: string): Promise<void> {
     const { collectionName, collectionId } = NaroPath.validate(path);
     const collection = this.core.getCollection(collectionName);
     const itemIndex = _.findIndex(collection, (item: any) => item.id === collectionId);
-    if (itemIndex === -1) throw new Error("Item not found");
+    if (itemIndex === -1) return;
     collection.splice(itemIndex, 1);
     this.core.updateCollection(collectionName, collection);
   }

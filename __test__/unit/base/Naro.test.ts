@@ -48,4 +48,16 @@ describe("Naro", () => {
       expect(error).toHaveProperty("message", "Item not found");
     }
   })
+  test("delete, should delete a document from the users collection", async () => {
+    const db = new Naro(root);
+    const newUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    expect(db.getAll("users")).toHaveLength(1);
+    await db.delete(`users/${newUser.id}`);
+    expect(db.getAll("users")).toHaveLength(0);
+  })
+  test("delete, should silently ignore if document is not found", async () => {
+    const db = new Naro(root);
+    await db.delete("users/123");
+    expect(db.getAll("users")).toHaveLength(0);
+  })
 });
