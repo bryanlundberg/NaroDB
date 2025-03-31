@@ -17,9 +17,9 @@ export class Naro {
     });
   }
 
-  add(collectionName: string, data: any) {
+  add(collectionName: string, item: Item): NaroDocument {
     const collection = this.core.getCollection(collectionName);
-    const newItem = { ...data, id: NaroId.generate() };
+    const newItem: NaroDocument = { ...item, id: NaroId.generate() };
     collection.push(newItem);
     this.core.updateCollection(collectionName, collection);
     return structuredClone(newItem);
