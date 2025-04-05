@@ -12,7 +12,7 @@ describe("Naro", () => {
   })
   test("getAll, should return an empty array if collection is empty", async () => {
     const db = new Naro(root);
-    const users = db.getAll("users");
+    const users = await db.getAll("users");
     expect(users).toHaveLength(0);
   })
   test("getAll, should return all documents in the users collection (with data)", async () => {
@@ -20,7 +20,7 @@ describe("Naro", () => {
     for (let i = 0; i < 5; i++) {
       await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
     }
-    const users = db.getAll("users");
+    const users = await db.getAll("users");
     expect(users).toHaveLength(5);
   })
   test("get, should return a document from the users collection", async () => {
@@ -51,13 +51,13 @@ describe("Naro", () => {
   test("delete, should delete a document from the users collection", async () => {
     const db = new Naro(root);
     const newUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
-    expect(db.getAll("users")).toHaveLength(1);
+    expect(await db.getAll("users")).toHaveLength(1);
     await db.delete(`users/${newUser.id}`);
-    expect(db.getAll("users")).toHaveLength(0);
+    expect(await db.getAll("users")).toHaveLength(0);
   })
   test("delete, should silently ignore if document is not found", async () => {
     const db = new Naro(root);
     await db.delete("users/123");
-    expect(db.getAll("users")).toHaveLength(0);
+    expect(await db.getAll("users")).toHaveLength(0);
   })
 });
