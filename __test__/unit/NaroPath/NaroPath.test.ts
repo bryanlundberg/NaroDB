@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { COLLECTION_NAME, SUB_COLLECTION_NAME } from "../../../src/constants/constants-test";
-import { NaroPath } from "../../../src";
+import { NaroPath } from "../../../src/manage/paths/NaroPath";
+
 
 describe("NaroPath, should validate paths are well structured", () => {
   test("Should throw error if path is empty", () => {

@@ -1,12 +1,14 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 import { remove, existsAsync, dirAsync } from "fs-jetpack";
-import { NaroFiler } from "../../../src";
 import { COLLECTION_NAME, DIRNAME_MOCK, FILENAME_MOCK, USERS_MOCK } from "../../../src/constants/constants-test";
+import { NaroFiler } from "../../../src/manage/files/NaroFiler";
 
-beforeEach(() => remove(DIRNAME_MOCK), 1000);
-afterEach(() => remove(DIRNAME_MOCK), 1000);
+
 
 describe("NaroFiler", () => {
+  beforeEach(() => remove(DIRNAME_MOCK), 1000);
+  afterEach(() => remove(DIRNAME_MOCK), 1000);
+
   test("ensureDirectory", async () => {
     await NaroFiler.ensureDirectory(DIRNAME_MOCK);
     const existsDir = await existsAsync(DIRNAME_MOCK);
