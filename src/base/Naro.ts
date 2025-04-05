@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { Core } from "../core/Core";
 import { NaroPath } from "../manage/paths/NaroPath";
 import { NaroId } from "../utils/IdGenerator";
+import { NaroDocument } from "./interfaces/NaroDocument";
 
 export class Naro {
   private readonly dbName: string;
@@ -17,7 +18,7 @@ export class Naro {
     });
   }
 
-  add(collectionName: string, item: Item): NaroDocument {
+  async add(collectionName: string, item: Item): Promise<NaroDocument> {
     const collection = this.core.getCollection(collectionName);
     const newItem: NaroDocument = { ...item, id: NaroId.generate() };
     collection.push(newItem);
@@ -25,11 +26,11 @@ export class Naro {
     return structuredClone(newItem);
   }
 
-  getAll(collectionName: string) {
+  async getAll(collectionName: string): Promise<NaroDocument[]> {
     return this.core.getCollection(collectionName);
   }
 
-  async get(path: string) {
+  async get(path: string): Promise<NaroDocument | undefined> {
     const { collectionName, collectionId } = NaroPath.validate(path);
     const collection = this.core.getCollection(collectionName);
     return _.find(collection, (item: any) => item.id === collectionId) || undefined;
