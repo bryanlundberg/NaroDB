@@ -18,6 +18,10 @@ export class Naro {
     });
   }
 
+  async writeToDisk(): Promise<void> {
+    await this.core.writeCollections();
+  }
+
   async add(collectionName: string, item: Item): Promise<NaroDocument> {
     const collection = this.core.getCollection(collectionName);
     const newItem: NaroDocument = { ...item, id: NaroId.generate() };
