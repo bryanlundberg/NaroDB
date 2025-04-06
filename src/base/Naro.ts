@@ -34,12 +34,26 @@ export class Naro {
     await this.core.writeCollections();
   }
 
+  /**
+   * Adds a new document to the specified collection.
+   *
+   * @param {string} collectionName - The name of the collection to add the data to.
+   * @param {DocData} data - The data to be added as a new document.
+   * @return {Promise<NaroDocument>} A promise that resolves to the newly added document.
+   *
+   * @example
+   * const db = new Naro("myDatabase");
+   *
+   * const newUser = await db.add("users", { name: "John Doe", age: 30 });
+   * console.log(newUser);
+   * // Output: { id: "generated-id", createdAt: 1696872345000, name: "John Doe", age: 30 }
+   */
   async add(collectionName: string, data: DocData): Promise<NaroDocument> {
     const collection = this.core.getCollection(collectionName);
-    const newItem: NaroDocument = { ...data, id: NaroId.generate() };
+    const newItem: NaroDocument = Object.assign(data, { id: NaroId.generate(), createdAt: Date.now() });
     collection.push(newItem);
     this.core.updateCollection(collectionName, collection);
-    return structuredClone(newItem);
+    return newItem;
   }
 
   /**
