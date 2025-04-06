@@ -1,6 +1,8 @@
 import { describe, expect, test } from "vitest";
 import { Naro } from "../../../src";
 import { faker } from "@faker-js/faker/locale/en";
+import { Core } from "../../../src/core/Core";
+import { remove } from "fs-jetpack";
 
 const root = "temp";
 
@@ -9,12 +11,12 @@ describe("Naro", () => {
     const db = new Naro(root);
     const newUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
     expect(newUser).toHaveProperty("id");
-  })
+  });
   test("getAll, should return an empty array if collection is empty", async () => {
     const db = new Naro(root);
     const users = await db.getAll("users");
     expect(users).toHaveLength(0);
-  })
+  });
   test("getAll, should return all documents in the users collection (with data)", async () => {
     const db = new Naro(root);
     for (let i = 0; i < 5; i++) {
@@ -22,24 +24,24 @@ describe("Naro", () => {
     }
     const users = await db.getAll("users");
     expect(users).toHaveLength(5);
-  })
+  });
   test("get, should return a document from the users collection", async () => {
     const db = new Naro(root);
     const newUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
     const user = await db.get(`users/${newUser.id}`);
     expect(user).toHaveProperty("id");
-  })
+  });
   test("get, should return undefined if document is not found", async () => {
     const db = new Naro(root);
     const user = await db.get("users/123");
     expect(user).toBeUndefined();
-  })
+  });
   test("update, should update a document in the users collection", async () => {
     const db = new Naro(root);
     const initialUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
     const afterUser = await db.update(`users/${initialUser.id}`, { name: "John Doe" });
     expect(afterUser).toHaveProperty("name", "John Doe");
-  })
+  });
   test("update, should throw an error if document is not found", async () => {
     const db = new Naro(root);
     try {
@@ -47,17 +49,41 @@ describe("Naro", () => {
     } catch (error) {
       expect(error).toHaveProperty("message", "Item not found");
     }
-  })
+  });
   test("delete, should delete a document from the users collection", async () => {
     const db = new Naro(root);
     const newUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
     expect(await db.getAll("users")).toHaveLength(1);
     await db.delete(`users/${newUser.id}`);
     expect(await db.getAll("users")).toHaveLength(0);
-  })
+  });
   test("delete, should silently ignore if document is not found", async () => {
     const db = new Naro(root);
     await db.delete("users/123");
     expect(await db.getAll("users")).toHaveLength(0);
-  })
+  });
+  test("writeToDisk, should write a collection to disk", async () => {
+    remove(`./data`);
+    const db = new Naro(root);
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    expect(async () => await db.writeToDisk()).not.toThrow();
+    const core = new Core("./data/"+root);
+    await core.initialize();
+    const collections = await core.loadCollections();
+    expect(collections).toEqual({ users: expect.anything() });
+  });
+  test("writeToDisk, should write two collections to disk", async () => {
+    remove(`./data`);
+    const db = new Naro(root);
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    await db.add("products", { name: faker.commerce.productName(), price: faker.commerce.price() });
+    expect(async () => await db.writeToDisk()).not.toThrow();
+    const core = new Core("./data/"+root);
+    await core.initialize();
+    const collections = await core.loadCollections();
+    expect(collections).toEqual({
+      users: expect.anything(),
+      products: expect.anything()
+    });
+  });
 });
