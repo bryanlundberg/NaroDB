@@ -1,3 +1,3 @@
-interface Item {
+interface DocData {
   [key: string]: any;
 }
