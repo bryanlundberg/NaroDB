@@ -3,8 +3,6 @@ import { remove, existsAsync, dirAsync } from "fs-jetpack";
 import { COLLECTION_NAME, DIRNAME_MOCK, FILENAME_MOCK, USERS_MOCK } from "../../../src/constants/constants-test";
 import { NaroFiler } from "../../../src/manage/files/NaroFiler";
 
-
-
 describe("NaroFiler", () => {
   beforeEach(() => remove(DIRNAME_MOCK), 1000);
   afterEach(() => remove(DIRNAME_MOCK), 1000);
