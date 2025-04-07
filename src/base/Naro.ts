@@ -134,6 +134,21 @@ export class Naro {
     return _.find(collection, (item: any) => item.id === collectionId) || undefined;
   }
 
+  /**
+   * Updates a document within a specified collection.
+   *
+   * @param {string} path - The path to the document, which includes collection name and document ID.
+   * @param {any} data - The new data to merge with the existing document.
+   * @return {Promise<NaroDocument>} A promise that resolves to the updated document.
+   *
+   * @example
+   * const db = new Naro("myDatabase");
+   *
+   * const initialUser = await db.add("users", { name: "John Doe", age: 25 });
+   * const updatedUser = await db.update(`users/${initialUser.id}`, { age: 30 });
+   * console.log(updatedUser);
+   * // Output: { id: "generated-id", createdAt: 1696872345000, name: "John Doe", age: 30 }
+   */
   async update(path: string, data: any): Promise<NaroDocument> {
     const { collectionName, collectionId } = NaroPath.validate(path);
     const collection = this.core.getCollection(collectionName);
@@ -141,7 +156,7 @@ export class Naro {
     if (itemIndex === -1) throw new Error("Item not found");
     collection[itemIndex] = { ...collection[itemIndex], ...data };
     this.core.updateCollection(collectionName, collection);
-    return collection[itemIndex]
+    return collection[itemIndex];
   }
 
   async delete(path: string): Promise<void> {
