@@ -114,6 +114,20 @@ export class Naro {
     return filteredCollection;
   }
 
+  /**
+   * Retrieves a document from the given path.
+   *
+   * @param {string} path - The path of the document to retrieve.
+   * @return {Promise<NaroDocument | undefined>} A promise that resolves to the retrieved document
+   * or undefined if the document is not found.
+   *
+   * @example
+   * const db = new Naro("myDatabase");
+   *
+   * const user = await db.get("users/123");
+   * console.log(user);
+   * // Output: { id: "123", createdAt: 1696872345000, name: "John Doe", age: 30 } (if found)
+   */
   async get(path: string): Promise<NaroDocument | undefined> {
     const { collectionName, collectionId } = NaroPath.validate(path);
     const collection = this.core.getCollection(collectionName);
