@@ -159,11 +159,29 @@ export class Naro {
     return collection[itemIndex];
   }
 
+  /**
+   * Deletes an item from the specified collection based on the given path.
+   * If the ID does not exist, the method does nothing.
+   *
+   * @param {string} path - The path identifying the collection and the item to delete.
+   * @return {Promise<void>} A promise that resolves when the deletion is complete.
+   *
+   * @example
+   * const db = new Naro("myDatabase");
+   *
+   * // Adding a new user
+   * const user = await db.add("users", { name: "Jane Doe", age: 28 });
+   * console.log(await db.getAll("users")); // Output: [{ id: "generated-id", name: "Jane Doe", age: 28, createdAt: 1696872345000 }]
+   *
+   * // Deleting the user
+   * await db.delete(`users/${user.id}`);
+   * console.log(await db.getAll("users")); // Output: []
+   */
   async delete(path: string): Promise<void> {
     const { collectionName, collectionId } = NaroPath.validate(path);
     const collection = this.core.getCollection(collectionName);
     const itemIndex = _.findIndex(collection, (item: any) => item.id === collectionId);
-    if (itemIndex === -1) return;
+    if (itemIndex === -1 || !collection[itemIndex]) return;
     collection.splice(itemIndex, 1);
     this.core.updateCollection(collectionName, collection);
   }
