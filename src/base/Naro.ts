@@ -30,6 +30,11 @@ export class Naro {
     });
   }
 
+  /**
+   * Writes the current collections data to disk storage.
+   *
+   * @return {Promise<void>} A promise that resolves when the write operation completes successfully.
+   */
   async writeToDisk(): Promise<void> {
     await this.core.writeCollections();
   }
