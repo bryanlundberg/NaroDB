@@ -7,5 +7,9 @@
   "entryPoints": [
     "./src/index.ts"
   ],
-  "projectDocuments": ["./src"]
+  "projectDocuments": ["./documentation/**/*.md"],
+  "hideGenerator": true,
+  "navigationLinks": {
+    "Express Example": ""
+  }
 }
