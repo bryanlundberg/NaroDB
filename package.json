@@ -37,7 +37,8 @@
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build": "npm run clean && npm run build:cjs && npm run build:esm",
-    "pack": "npm run build && npm pack"
+    "pack": "npm run build && npm pack",
+    "docs": "typedoc"
   },
   "dependencies": {
     "fs-jetpack": "^5.1.0",
@@ -48,6 +49,9 @@
   "devDependencies": {
     "@faker-js/faker": "^9.6.0",
     "@types/lodash": "^4.17.16",
+    "typedoc": "^0.28.2",
+    "typedoc-github-theme": "^0.3.0",
+    "typedoc-plugin-missing-exports": "^4.0.0",
     "vitest": "^3.0.9"
   }
 }

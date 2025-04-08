@@ -1,0 +1,11 @@
+{
+  "plugin": [
+    "typedoc-plugin-missing-exports",
+    "typedoc-github-theme"
+  ],
+  "out": "./docs",
+  "entryPoints": [
+    "./src/index.ts"
+  ],
+  "projectDocuments": ["./src"]
+}
