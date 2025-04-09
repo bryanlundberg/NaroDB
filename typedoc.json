@@ -10,6 +10,7 @@
   "projectDocuments": ["./documentation/**/*.md"],
   "hideGenerator": true,
   "navigationLinks": {
+    "Github": "https://github.com/bryanlundberg/NaroDB",
     "Express Example": ""
   },
   "favicon": "./.github/favicon.ico"
