@@ -13,3 +13,9 @@ NaroDB is built on a few core principles:
 - Simple to use — Offers a minimal and intuitive API with no need for complex setup or schema definitions.
 - Lightweight — Designed to have a small footprint with minimal dependencies.
 - Flexible — Suitable for storing a wide range of data structures and works well in embedded or serverless environments.
+
+
+<div style="display: flex; justify-content: space-between; margin-top: 50px; width: 100%;">
+  <a style="flex-grow: 1;" href="/"><strong></strong></a>
+  <a style="flex-grow: 1;" href="./Installation.md"><strong>⏭️ Next Page</strong></a>
+</div>

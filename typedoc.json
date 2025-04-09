@@ -11,5 +11,6 @@
   "hideGenerator": true,
   "navigationLinks": {
     "Express Example": ""
-  }
+  },
+  "favicon": "./.github/favicon.ico"
 }

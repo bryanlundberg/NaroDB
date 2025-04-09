@@ -93,3 +93,7 @@ await db.delete("users/t9y7ee2xvpr5fq99mkuj");
 - **Root:** Removal actions start with `db.delete()`.
 - **Collection:** `'users'` is the collection to remove the record from.
 - **Element ID:** `"t9y7ee2xvpr5fq99mkuj"` specifies the record to delete.
+
+<div style="display: flex; justify-content: space-between; margin-top: 50px; width: 100%;">
+  <a href="./Installation.md"><strong>⏮️ Previous Page</strong></a>
+</div>
