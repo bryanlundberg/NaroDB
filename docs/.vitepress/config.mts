@@ -12,6 +12,10 @@ export default defineConfig({
     sitemap: {
       hostname: 'https://naro-db.vercel.app',
     },
+    editLink: {
+      pattern: 'https://github.com/bryanlundberg/NaroDB/tree/main/docs/:path',
+      text: 'Edit this page on GitHub'
+    },
     head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
     nav: [
       { text: 'Guide', link: '/getting-started' },
