@@ -1,4 +1,4 @@
-# Usage
+# Brief Usage
 
 Designed to be simple and easy to use. Below are some common examples of how to use it.
 
@@ -11,9 +11,14 @@ import { NaroDB } from 'narodb';
 const db = new NaroDB("my-database-name");
 ```
 
+::: info
+- A good practice is to initialize the database in a separate file and import it wherever needed.
+- The database name can be any string, and it will be used to create a local storage key.
+:::
+
 ---
 
-#### Add a Record to a Collection
+## Add a Record to a Collection
 
 ```javascript
 // Add a record to the 'users' collection
@@ -29,7 +34,7 @@ await db.add('users', { name: 'John Doe', age: 30 });
 
 ---
 
-#### Retrieve All Records from a Collection
+## Retrieve All Records from a Collection
 
 ```javascript
 // Get all records from the 'users' collection
@@ -48,7 +53,7 @@ await db.getAll('users');
 
 ---
 
-#### Retrieve a Specific Record by ID
+## Retrieve a Specific Record by ID
 
 ```javascript
 // Get a specific record by its ID
@@ -64,7 +69,7 @@ await db.get('users/t9y7ee2xvpr5fq99mkuj');
 
 ---
 
-#### Update a Record
+## Update a Record
 
 ```javascript
 // Update the age of a specific record
@@ -80,7 +85,7 @@ await db.update("users/t9y7ee2xvpr5fq99mkuj", { age: 31 });
 
 ---
 
-#### Delete a Record
+## Delete a Record
 
 ```javascript
 // Delete a specific record by its ID
@@ -93,7 +98,3 @@ await db.delete("users/t9y7ee2xvpr5fq99mkuj");
 - **Root:** Removal actions start with `db.delete()`.
 - **Collection:** `'users'` is the collection to remove the record from.
 - **Element ID:** `"t9y7ee2xvpr5fq99mkuj"` specifies the record to delete.
-
-<div style="display: flex; justify-content: space-between; margin-top: 50px; width: 100%;">
-  <a href="./Installation.md"><strong>⏮️ Previous Page</strong></a>
-</div>

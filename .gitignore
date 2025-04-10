@@ -28,3 +28,6 @@ yarn.lock
 .pnp.*
 data
 pnpm-lock.yaml
+
+docs/.vitepress/dist
+docs/.vitepress/cache
