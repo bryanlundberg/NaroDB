@@ -3,6 +3,9 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "NaroDB",
+  siteTitle: "NaroDB",
+  logo: "/favicon.ico",
+  lastUpdated: true,
   description: "A lightweight NoSQL database that encode and decode MessagePack binaries.",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -11,13 +14,13 @@ export default defineConfig({
     },
     head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
     nav: [
-      { text: 'Get Started', link: '/getting-started' },
+      { text: 'Guide', link: '/getting-started' },
       { text: 'Examples', link: '/examples' }
     ],
 
     sidebar: [
       {
-        text: 'Documentation',
+        text: 'Introduction',
         items: [
           { text: 'Getting Started', link: '/getting-started' },
           { text: 'Installation', link: '/installation' },
@@ -25,19 +28,23 @@ export default defineConfig({
         ]
       },
       {
-        text: 'How it works',
+        text: 'API Reference',
         items: [
-          { text: 'How NaroDB works', link: '/how-it-works' },
-          { text: 'MessagePack', link: '/messagepack' },
-          { text: 'Storage', link: '/storage' }
+          { text: 'get', link: '/api-reference/get' },
+          { text: 'getAll', link: '/api-reference/getAll' },
+          { text: 'add', link: '/api-reference/add' },
+          { text: 'update', link: '/api-reference/update' },
+          { text: 'delete', link: '/api-reference/delete' },
         ]
       },
       {
-        text: 'API Reference',
+        text: 'Types Reference',
         items: [
-          { text: 'Naro', link: '/api-reference/classes/Naro' },
-          { text: 'NaroDocument', link: '/api-reference/interfaces/NaroDocument' },
-          { text: 'NaroDBServer', link: '/api/narodbsserver' }
+          { text: 'NaroDocument', link: '/types-reference/naro-document' },
+          { text: 'Operators', link: '/types-reference/operators' },
+          { text: 'Filter', link: '/types-reference/filter' },
+          { text: 'Options', link: '/types-reference/options' },
+          { text: 'Query', link: '/types-reference/query' }
         ]
       }
     ],
