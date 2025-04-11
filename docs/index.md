@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "NaroDB"
   text: "Lightweight NoSQL Database"
-  tagline: Fast, simple, and efficient local data storage with MessagePack
+  tagline: Fast and simple local data storage manager with MessagePack
   actions:
     - theme: brand
       text: Get Started

@@ -47,6 +47,7 @@ export default defineConfig({
           { text: 'NaroDocument', link: '/types-reference/naro-document' },
           { text: 'Operators', link: '/types-reference/operators' },
           { text: 'Filter', link: '/types-reference/filter' },
+          { text: 'Limit', link: '/types-reference/limit' },
           { text: 'Options', link: '/types-reference/options' },
           { text: 'Query', link: '/types-reference/query' }
         ]

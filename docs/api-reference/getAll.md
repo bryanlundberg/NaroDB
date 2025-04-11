@@ -6,10 +6,10 @@ Retrieves all documents from a specified collection, optionally applying filters
 
 ### Parameters
 
-| Prop           | Type    | Default |
-|----------------|---------|---------|
-| `collectionName` | `string`  |         |
-| `options`        | `Options` | {}      |
+| Prop             | Type      | Description                                            |
+|------------------|-----------|--------------------------------------------------------|
+| `collectionName` | `string`  | The name of the collection to retrieve documents from. |
+| `options`        | `Options` | Additional options for filtering and limiting results. |
 
 ### Returns
 

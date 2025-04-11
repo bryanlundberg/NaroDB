@@ -6,10 +6,10 @@ Adds a new document to the specified collection.
 
 ### Parameters
 
-| Prop             | Type      | Default |
-|------------------|-----------|---------|
-| `collectionName` | `string`  |         |
-| `data`           | `DocData` |         |
+| Prop             | Type      | Description                          |
+|------------------|-----------|--------------------------------------|
+| `collectionName` | `string`  | The name of the collection to add to |
+| `data`           | `DocData` | The document data to be added        |
 
 ### Returns
 

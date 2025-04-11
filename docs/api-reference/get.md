@@ -6,9 +6,9 @@ Retrieves a document from the given path.
 
 ### Parameters
 
-| Prop    | Type                 | Default |
-|---------|----------------------|---------|
-| `path`    | `string`               |         |
+| Prop   | Type   | Description        |
+|--------|--------|--------------------|
+| `path` | string | The document path. |
 
 ### Returns
 
