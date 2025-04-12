@@ -62,4 +62,28 @@ describe("NaroPath, should validate paths are well structured", () => {
   test("Should throw error if path ends with / as collection/", () => {
     expect(() => NaroPath.validate(`${COLLECTION_NAME}/1234/${SUB_COLLECTION_NAME}/5678/`)).toThrowError();
   });
+
+  test("Throws error if path contains only slashes", () => {
+    expect(() => NaroPath.validate("////")).toThrowError();
+  });
+
+  test("Throws error if path contains invalid characters", () => {
+    expect(() => NaroPath.validate("collectionName/1234/!@#$%^&*()")).toThrowError();
+  });
+
+  test("Throws error if a path ends with a slash", () => {
+    expect(() => NaroPath.validate("collectionName/")).toThrowError();
+    expect(() => NaroPath.validate("collectionName/1234/")).toThrowError();
+    expect(() => NaroPath.validate("collectionName/1234/subCollectionName/")).toThrowError();
+    expect(() => NaroPath.validate("collectionName/1234/subCollectionName/5678/")).toThrowError();
+  })
+
+  test("Handles path with mixed case correctly", () => {
+    const { collectionName, collectionId, subCollectionName, subCollectionId } = NaroPath.validate("CollectionName/1234/SubCollectionName/5678");
+    expect(collectionName).toBe("CollectionName");
+    expect(collectionId).toBe("1234");
+    expect(subCollectionName).toBe("SubCollectionName");
+    expect(subCollectionId).toBe("5678");
+  });
 });
+
