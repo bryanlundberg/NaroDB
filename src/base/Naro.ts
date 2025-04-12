@@ -90,35 +90,44 @@ export class Naro {
 
     let filteredCollection = collection;
 
-    if (filters) {
-      filteredCollection = filteredCollection.filter(document =>
-        filters.every((q: Query) => {
-          const { field, operator, value } = q;
-          const docValue = document[field];
-          switch (operator) {
-            case "==":
-              return docValue == value;
-            case "!=":
-              return docValue != value;
-            case "<":
-              return docValue < value;
-            case "<=":
-              return docValue <= value;
-            case ">":
-              return docValue > value;
-            case ">=":
-              return docValue >= value;
-            default:
-              return false;
-          }
-        })
-      );
-    }
-
+    filteredCollection = this.filterCollection(filteredCollection, filters || []);
     filteredCollection = this.limitDocuments(filteredCollection, limit);
     filteredCollection = await this.populateCollection(filteredCollection, populate);
 
     return filteredCollection;
+  }
+
+  /**
+   * Filters a collection of `NaroDocument` objects based on the specified query filters.
+   *
+   * @param {NaroDocument[]} collection - The array of `NaroDocument` objects to be filtered.
+   * @param {Query[]} filters - An array of query objects, each containing `field`, `operator`, and `value`,
+   *                             which define the filter criteria.
+   * @return {NaroDocument[]} A new array of `NaroDocument` objects that satisfy all the specified filters.
+   */
+  private filterCollection(collection: NaroDocument[], filters: Query[]): NaroDocument[] {
+    return collection.filter(document =>
+      filters.every((q: Query) => {
+        const { field, operator, value } = q;
+        const docValue = document[field];
+        switch (operator) {
+          case "==":
+            return docValue == value;
+          case "!=":
+            return docValue != value;
+          case "<":
+            return docValue < value;
+          case "<=":
+            return docValue <= value;
+          case ">":
+            return docValue > value;
+          case ">=":
+            return docValue >= value;
+          default:
+            return false;
+        }
+      })
+    );
   }
 
   /**
