@@ -42,7 +42,7 @@ export class Naro {
   /**
    * Adds a new document to the specified collection.
    *
-   * @param {string} collectionName - The name of the collection to add the data to.
+   * @param {string} path - The name of the collection to add the data to.
    * @param {DocData} data - The data to be added as a new document.
    * @return {Promise<NaroDocument>} A promise that resolves to the newly added document.
    *
@@ -53,7 +53,8 @@ export class Naro {
    * console.log(newUser);
    * // Output: { id: "generated-id", createdAt: 1696872345000, name: "John Doe", age: 30 }
    */
-  async add(collectionName: string, data: DocData): Promise<NaroDocument> {
+  async add(path: string, data: DocData): Promise<NaroDocument> {
+    const { collectionName } = NaroPath.validate(path);
     const collection = this.core.getCollection(collectionName);
     const id = NaroId.generate();
     const source = { id, createdAt: Date.now(), path: `${collectionName}/${id}` };
@@ -67,7 +68,7 @@ export class Naro {
    * Retrieves all documents from a specified collection, optionally applying filters and limits,
    * and populates specified fields with referenced documents from other collections.
    *
-   * @param {string} collectionName - The name of the collection to retrieve documents from.
+   * @param {string} path - The name of the collection to retrieve documents from.
    * @param {Options} [options={}] - Options to filter and limit the retrieval of documents.
    * @param {Query[]} [options.filters] - An array of filter conditions to apply to the documents.
    * @param {number} [options.limit] - Maximum number of documents to retrieve.
@@ -83,7 +84,8 @@ export class Naro {
    * });
    * console.log(users); // Logs up to 10 users aged 18 or older with populated "profile" field
    */
-  async getAll(collectionName: string, options: Options = {}): Promise<NaroDocument[]> {
+  async getAll(path: string, options: Options = {}): Promise<NaroDocument[]> {
+    const { collectionName } = NaroPath.validate(path);
     const collection = cloneDeep(this.core.getCollection(collectionName));
     if (!collection) throw new Error(`Collection ${collectionName} does not exist`);
     const { filters, limit, populate } = options;
@@ -100,16 +102,16 @@ export class Naro {
   /**
    * Filters a collection of `NaroDocument` objects based on the specified query filters.
    *
-   * @param {NaroDocument[]} collection - The array of `NaroDocument` objects to be filtered.
+   * @param {NaroDocument[]} docs - The array of `NaroDocument` objects to be filtered.
    * @param {Query[]} filters - An array of query objects, each containing `field`, `operator`, and `value`,
    *                             which define the filter criteria.
    * @return {NaroDocument[]} A new array of `NaroDocument` objects that satisfy all the specified filters.
    */
-  private filterCollection(collection: NaroDocument[], filters: Query[]): NaroDocument[] {
-    return collection.filter(document =>
+  private filterCollection(docs: NaroDocument[], filters: Query[]): NaroDocument[] {
+    return docs.filter(doc =>
       filters.every((q: Query) => {
         const { field, operator, value } = q;
-        const docValue = document[field];
+        const docValue = doc[field];
         switch (operator) {
           case "==":
             return docValue == value;
@@ -180,7 +182,7 @@ export class Naro {
   /**
    * Populates the specified fields within a collection of documents.
    *
-   * @param {NaroDocument[]} collection - The collection of documents to be populated.
+   * @param {NaroDocument[]} docs - The collection of documents to be populated.
    * @param {string[] | undefined} populateFields - The fields to populate within each document. If undefined or empty, no fields are populated.
    * @return {Promise<NaroDocument[]>} A promise resolving to the collection of documents with the specified fields populated.
    *
@@ -223,10 +225,10 @@ export class Naro {
    * //   }
    * // ]
    */
-  async populateCollection(collection: NaroDocument[], populateFields: string[] | undefined): Promise<NaroDocument[]> {
-    if (!populateFields || populateFields.length === 0) return collection;
+  async populateCollection(docs: NaroDocument[], populateFields: string[] | undefined): Promise<NaroDocument[]> {
+    if (!populateFields || populateFields.length === 0) return docs;
 
-    return Promise.all(collection.map(doc => this.populate(doc, populateFields)));
+    return Promise.all(docs.map(doc => this.populate(doc, populateFields)));
   }
 
   /**
