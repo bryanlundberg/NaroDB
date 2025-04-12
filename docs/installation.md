@@ -2,11 +2,27 @@
 
 This package is currently under development and will be available soon. Stay tuned for updates!
 
-## Installation (Coming Soon)
 
-```bash
+::: code-group
+
+```bash [npm]
 npm install <soon-to-be-released-package-name>
 ```
+
+```bash [pnpm]
+pnpm add <soon-to-be-released-package-name>
+```
+
+```bash [yarn]
+yarn add <soon-to-be-released-package-name>
+```
+
+```bash [bun]
+bun add <soon-to-be-released-package-name>
+```
+
+:::
+
 
 Stay connected for the official release! 🚀
 
