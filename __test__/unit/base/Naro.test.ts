@@ -108,10 +108,12 @@ describe("Naro", () => {
           name: expect.any(String),
           phone: expect.any(String),
           id: expect.any(String),
-          createdAt: expect.any(Number)
+          createdAt: expect.any(Number),
+          path: expect.any(String),
         },
         id: expect.any(String),
-        createdAt: expect.any(Number)
+        createdAt: expect.any(Number),
+        path: expect.any(String),
       }
     ]);
   });

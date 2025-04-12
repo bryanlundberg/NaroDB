@@ -55,7 +55,9 @@ export class Naro {
    */
   async add(collectionName: string, data: DocData): Promise<NaroDocument> {
     const collection = this.core.getCollection(collectionName);
-    const newItem: NaroDocument = Object.assign(data, { id: NaroId.generate(), createdAt: Date.now() });
+    const id = NaroId.generate();
+    const source = { id, createdAt: Date.now(), path: `${collectionName}/${id}` };
+    const newItem: NaroDocument = Object.assign(data, source);
     collection.push(newItem);
     this.core.updateCollection(collectionName, collection);
     return newItem;
