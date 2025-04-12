@@ -327,6 +327,44 @@ export class Naro {
     collection.splice(itemIndex, 1);
     this.core.updateCollection(collectionName, collection);
   }
+
+  /**
+   * Checks if a document exists in the specified collection based on the given path.
+   *
+   * @param {string} path - The path to the document, which includes the collection name and document ID.
+   *                        The path should follow the format: 'collectionName/id'.
+   * @return {Promise<boolean>} A promise that resolves to `true` if the document exists, or `false` otherwise.
+   *
+   * @example
+   * const db = new Naro("myDatabase");
+   *
+   * const exists = await db.exists("users/123");
+   * console.log(exists); // Output: true or false
+   */
+  async exists(path: string): Promise<boolean> {
+    const { collectionName, collectionId } = NaroPath.validate(path);
+    const collection = this.core.getCollection(collectionName);
+    return _.some(collection, (item: any) => item.id === collectionId);
+  }
+
+  /**
+   * Counts the number of documents in a specified collection.
+   *
+   * @param {string} path - The name of the collection to count documents in.
+   * @return {Promise<number>} A promise that resolves to the number of documents in the collection.
+   *
+   * @example
+   * const db = new Naro("myDatabase");
+   *
+   * const count = await db.count("users");
+   * console.log(count); // Output: 5 (if there are 5 documents in the "users" collection)
+   */
+  async count(path: string): Promise<number> {
+    const { collectionName } = NaroPath.validate(path);
+    const collection = this.core.getCollection(collectionName);
+    if (!collection) throw new Error(`Collection ${collectionName} does not exist`);
+    return collection.length;
+  }
 }
 
 
