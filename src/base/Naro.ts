@@ -115,26 +115,136 @@ export class Naro {
       );
     }
 
-    if (limit !== undefined) filteredCollection = filteredCollection.slice(0, limit);
-
-    if (populate && populate.length > 0) {
-      for (const field of populate) {
-        filteredCollection = await Promise.all(
-          filteredCollection.map(async document => {
-            if (document[field]) {
-              const refPath = String(document[field]);
-              const refDoc = await this.get(refPath);
-              if (refDoc) {
-                document[field] = refDoc;
-              }
-            }
-            return document;
-          })
-        );
-      }
-    }
+    filteredCollection = this.limitDocuments(filteredCollection, limit);
+    filteredCollection = await this.populateCollection(filteredCollection, populate);
 
     return filteredCollection;
+  }
+
+  /**
+   * Populates the specified fields of a document with their corresponding referenced documents.
+   *
+   * @param {NaroDocument} doc - The document to be populated.
+   * @param {string[] | undefined} populateFields - An array of field names to populate, or undefined if no fields are specified.
+   * @return {Promise<NaroDocument>} A promise that resolves to the populated document.
+   *
+   * @example
+   * const db = new Naro("myDatabase");
+   *
+   * const profile = await db.add("profiles", { bio: "Software Developer", skills: ["TypeScript", "Node.js"] });
+   * const user = await db.add("users", { name: "John Doe", profile: `profiles/${profile.id}` });
+   *
+   * const populatedUser = await db.populate(user, ["profile"]);
+   * console.log(populatedUser);
+   * // Output:
+   * // {
+   * //   id: "generated-id",
+   * //   createdAt: 1696872345000,
+   * //   name: "John Doe",
+   * //   profile: {
+   * //     id: "generated-id",
+   * //     createdAt: 1696872345000,
+   * //     bio: "Software Developer",
+   * //     skills: ["TypeScript", "Node.js"]
+   * //     path: "profiles/generated-id"
+   * //   },
+   * //     path: "users/generated-id"
+   * // }
+   */
+  async populate(doc: NaroDocument, populateFields: string[] | undefined): Promise<NaroDocument> {
+    if (!populateFields?.length) return doc;
+    const populatedDoc = cloneDeep(doc);
+
+    await Promise.all(populateFields.map(async (field) => {
+      const refPath = populatedDoc[field];
+      if (typeof refPath === "string") {
+        const refDoc = await this.get(refPath);
+        if (refDoc) {
+          populatedDoc[field] = refDoc;
+        }
+      }
+    }));
+
+    return populatedDoc;
+  }
+
+  /**
+   * Populates the specified fields within a collection of documents.
+   *
+   * @param {NaroDocument[]} collection - The collection of documents to be populated.
+   * @param {string[] | undefined} populateFields - The fields to populate within each document. If undefined or empty, no fields are populated.
+   * @return {Promise<NaroDocument[]>} A promise resolving to the collection of documents with the specified fields populated.
+   *
+   * @example
+   * const db = new Naro("myDatabase");
+   *
+   * const profile = await db.add("profiles", { bio: "Engineer", skills: ["JavaScript", "TypeScript"] });
+   * const user1 = await db.add("users", { name: "Alice", profile: `profiles/${profile.id}` });
+   * const user2 = await db.add("users", { name: "Bob", profile: `profiles/${profile.id}` });
+   *
+   * const populatedUsers = await db.populateCollection([user1, user2], ["profile"]);
+   * console.log(populatedUsers);
+   * // Output:
+   * // [
+   * //   {
+   * //     id: "generated-id",
+   * //     createdAt: 1696872345000,
+   * //     name: "Alice",
+   * //     profile: {
+   * //       id: "generated-id",
+   * //       createdAt: 1696872345000,
+   * //       bio: "Engineer",
+   * //       skills: ["JavaScript", "TypeScript"],
+   * //       path: "profiles/generated-id"
+   * //     }
+   * //     path: "users/generated-id"
+   * //   },
+   * //   {
+   * //     id: "generated-id",
+   * //     createdAt: 1696872345000,
+   * //     name: "Bob",
+   * //     profile: {
+   * //       id: "generated-id",
+   * //       createdAt: 1696872345000,
+   * //       bio: "Engineer",
+   * //       skills: ["JavaScript", "TypeScript"],
+   * //       path: "profiles/generated-id"
+   * //     },
+   * //     path: "users/generated-id"
+   * //   }
+   * // ]
+   */
+  async populateCollection(collection: NaroDocument[], populateFields: string[] | undefined): Promise<NaroDocument[]> {
+    if (!populateFields || populateFields.length === 0) return collection;
+
+    return Promise.all(collection.map(doc => this.populate(doc, populateFields)));
+  }
+
+  /**
+   * Limits the number of documents in a collection to the specified limit.
+   *
+   * @param {NaroDocument[]} collection - The collection of documents to limit.
+   * @param {number} [limit] - The maximum number of documents to include. If undefined, the entire collection is returned.
+   * @return {NaroDocument[]} A new array containing up to the specified number of documents.
+   *
+   * @example
+   * const documents = [
+   *   { id: "1", createdAt: 1696872345000, path: "items/1" },
+   *   { id: "2", createdAt: 1696872346000, path: "items/2" },
+   *   { id: "3", createdAt: 1696872347000, path: "items/3" }
+   * ];
+   *
+   * const limitedDocuments = limitDocuments(documents, 2);
+   * console.log(limitedDocuments);
+   * // Output:
+   * // [
+   * //   { id: "1", createdAt: 1696872345000, path: "items/1" },
+   * //   { id: "2", createdAt: 1696872346000, path: "items/2" }
+   * // ]
+   */
+  private limitDocuments(collection: NaroDocument[], limit?: number): NaroDocument[] {
+    if (limit === undefined) return collection;
+    return collection.slice(0, limit);
   }
 
   /**
