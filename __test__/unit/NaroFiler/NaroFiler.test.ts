@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 import { remove, existsAsync, dirAsync } from "fs-jetpack";
-import { COLLECTION_NAME, DIRNAME_MOCK, FILENAME_MOCK, USERS_MOCK } from "../../../src/constants/constants-test";
+import { COLLECTION_NAME, DIRNAME_MOCK, FILENAME_MOCK, USERS_MOCK } from "../constants-test";
 import { NaroFiler } from "../../../src/manage/files/NaroFiler";
 
 describe("NaroFiler", () => {
