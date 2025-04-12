@@ -1,5 +1,5 @@
 import { Query } from "./Query.interface";
-import { Limit} from "../types/Limit.type";
+import { Limit} from "./Limit.type";
 
 export interface Options {
   filters?: Query[];

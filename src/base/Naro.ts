@@ -2,9 +2,9 @@ import _, { cloneDeep } from 'lodash';
 import { Core } from "../core/Core";
 import { NaroPath } from "../manage/paths/NaroPath";
 import { NaroId } from "../utils/IdGenerator";
-import { NaroDocument } from "./interfaces/NaroDocument.interface";
-import { Options } from "./interfaces/Options.interface";
-import { Query } from "./interfaces/Query.interface";
+import { NaroDocument } from "../types/NaroDocument.interface";
+import { Options } from "../types/Options.interface";
+import { Query } from "../types/Query.interface";
 
 /**
  * The Naro class provides methods to manage and manipulate collections

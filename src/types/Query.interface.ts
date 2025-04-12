@@ -1,4 +1,4 @@
-import { Operator } from "../types/Operator.type";
+import { Operator } from "./Operator.type";
 
 export interface Query {
   field: string;
