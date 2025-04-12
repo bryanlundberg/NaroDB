@@ -19,7 +19,7 @@ export default defineConfig({
     head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
     nav: [
       { text: 'Guide', link: '/installation' },
-      { text: 'Examples', link: '/examples/index' }
+      { text: 'Examples', link: '/guides/index' }
     ],
 
     sidebar: [
@@ -34,9 +34,9 @@ export default defineConfig({
       {
         text: 'Guides',
         items: [
-          { text: 'Getting Started', link: '/examples/index.md' },
-          { text: 'Express.js', link: '/examples/express.md' },
-          { text: 'Nest.js', link: '/examples/nest.md' }
+          { text: 'Getting Started', link: '/guides/index.md' },
+          { text: 'Express.js', link: '/guides/express.md' },
+          { text: 'Nest.js', link: '/guides/nestjs.md' }
         ],
       },
       {
