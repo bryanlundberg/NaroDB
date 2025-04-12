@@ -48,4 +48,11 @@ export class Core {
       NaroFiler.writeBinaryFile(dataPath, this.collections[collectionName]);
     });
   }
+
+  async writeCollection(path: string) {
+    const collectionPath = `${this.rootPath}/${path}`;
+    await NaroFiler.ensureDirectory(collectionPath);
+    const dataPath = `${collectionPath}/${this.logFileName}`;
+    await NaroFiler.writeBinaryFile(dataPath, this.collections[path]);
+  }
 }
