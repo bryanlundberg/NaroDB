@@ -76,8 +76,9 @@ export class Naro {
    * @example
    * const users = await db.getAll("users", {
    *   filters: [{ field: "age", operator: ">=", value: 18 }],
-   *   limit: 10
-   * }, ["profile"]);
+   *   limit: 10,
+   *   populate: ["profile"]
+   * });
    * console.log(users); // Logs up to 10 users aged 18 or older with populated "profile" field
    */
   async getAll(collectionName: string, options: Options = {}): Promise<NaroDocument[]> {
