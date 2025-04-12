@@ -93,6 +93,28 @@ describe("Naro", () => {
     const users = await db.getAll("users", { limit: 2 });
     expect(users).toHaveLength(2);
   });
+  test("getAll, should return all documents in the users collection (with populate)", async () => {
+    const db = new Naro(root);
+    const user = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    await db.add("products", { name: faker.commerce.productName(), price: faker.commerce.price(), owner: `users/${user.id}` });
+    const products = await db.getAll("products", {
+      populate: ["owner"]
+    });
+    expect(products).toEqual([
+      {
+        name: expect.any(String),
+        price: expect.any(String),
+        owner: {
+          name: expect.any(String),
+          phone: expect.any(String),
+          id: expect.any(String),
+          createdAt: expect.any(Number)
+        },
+        id: expect.any(String),
+        createdAt: expect.any(Number)
+      }
+    ]);
+  });
   test("get, should return a document from the users collection", async () => {
     const db = new Naro(root);
     const newUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });

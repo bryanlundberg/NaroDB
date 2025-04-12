@@ -62,26 +62,28 @@ export class Naro {
   }
 
   /**
-   * Retrieves all documents from a specified collection, optionally applying filters and limits.
+   * Retrieves all documents from a specified collection, optionally applying filters and limits,
+   * and populates specified fields with referenced documents from other collections.
    *
    * @param {string} collectionName - The name of the collection to retrieve documents from.
    * @param {Options} [options={}] - Options to filter and limit the retrieval of documents.
    * @param {Query[]} [options.filters] - An array of filter conditions to apply to the documents.
    * @param {number} [options.limit] - Maximum number of documents to retrieve.
-   * @return {Promise<NaroDocument[]>} A promise that resolves to an array of documents matching the specified filters and limits.
-   * @throws {Error} If the specified collection does not exist.
+   * @param {string[]} [options.populate] - An array of fields to populate.
+   * @return {Promise<NaroDocument[]>} A promise that resolves to an array of documents matching the specified filters and limits, with populated fields.
+   * @throws {Error} If the specified collection or referenced collection does not exist.
    *
    * @example
    * const users = await db.getAll("users", {
    *   filters: [{ field: "age", operator: ">=", value: 18 }],
    *   limit: 10
-   * });
-   * console.log(users); // Logs up to 10 users aged 18 or older
+   * }, ["profile"]);
+   * console.log(users); // Logs up to 10 users aged 18 or older with populated "profile" field
    */
   async getAll(collectionName: string, options: Options = {}): Promise<NaroDocument[]> {
     const collection = cloneDeep(this.core.getCollection(collectionName));
     if (!collection) throw new Error(`Collection ${collectionName} does not exist`);
-    const { filters, limit } = options;
+    const { filters, limit, populate } = options;
 
     let filteredCollection = collection;
 
@@ -111,6 +113,24 @@ export class Naro {
     }
 
     if (limit !== undefined) filteredCollection = filteredCollection.slice(0, limit);
+
+    if (populate && populate.length > 0) {
+      for (const field of populate) {
+        filteredCollection = await Promise.all(
+          filteredCollection.map(async document => {
+            if (document[field]) {
+              const refPath = String(document[field]);
+              const refDoc = await this.get(refPath);
+              if (refDoc) {
+                document[field] = refDoc;
+              }
+            }
+            return document;
+          })
+        );
+      }
+    }
+
     return filteredCollection;
   }
 

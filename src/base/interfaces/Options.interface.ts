@@ -4,4 +4,5 @@ import { Limit} from "../types/Limit.type";
 export interface Options {
   filters?: Query[];
   limit?: Limit;
+  populate?: string[];
 }
