@@ -6,10 +6,10 @@ Populates the specified fields of a document with their corresponding referenced
 
 ### Parameters
 
-| Prop             | Type                | Description                                                      |
-|------------------|---------------------|------------------------------------------------------------------|
-| `doc`            | `NaroDocument`      | The document to be populated.                                    |
-| `populateFields` | `string[] \| undefined` | An array of field names to populate, or undefined if no fields are specified. |
+| Prop             | Type                                                | Description                                                                   |
+|------------------|-----------------------------------------------------|-------------------------------------------------------------------------------|
+| `doc`            | [NaroDocument](../types-reference/naro-document.md) | The document to be populated.                                                 |
+| `populateFields` | `string[]`                                          | An array of field names to populate, or undefined if no fields are specified. |
 
 ### Returns
 

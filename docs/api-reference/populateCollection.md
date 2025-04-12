@@ -6,10 +6,10 @@ Populates the specified fields within a collection of documents.
 
 ### Parameters
 
-| Prop             | Type                | Description                                                      |
-|------------------|---------------------|------------------------------------------------------------------|
-| `collection`     | `NaroDocument[]`    | The collection of documents to be populated.                     |
-| `populateFields` | `string[] \| undefined` | The fields to populate within each document. If undefined or empty, no fields are populated. |
+| Prop             | Type                                                  | Description                                                                                  |
+|------------------|-------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| `collection`     | [NaroDocument[]](../types-reference/naro-document.md) | The collection of documents to be populated.                                                 |
+| `populateFields` | `string[]`                                            | The fields to populate within each document. If undefined or empty, no fields are populated. |
 
 ### Returns
 

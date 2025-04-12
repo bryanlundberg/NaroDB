@@ -6,16 +6,15 @@ Retrieves all documents from a specified collection, optionally applying filters
 
 ### Parameters
 
-| Prop             | Type      | Description                                            |
-|------------------|-----------|--------------------------------------------------------|
-| `collectionName` | `string`  | The name of the collection to retrieve documents from. |
-| `options`        | `Options` | Additional options for filtering and limiting results. |
+| Prop      | Type                                     | Description                                            |
+|-----------|------------------------------------------|--------------------------------------------------------|
+| `path`    | `string`                                 | The name of the collection to retrieve documents from. |
+| `options` | [Options](../types-reference/options.md) | Additional options for filtering and limiting results. |
 
 ### Returns
 
 - Returns a promise that resolves to an array of documents from the specified collection.
 - If no documents are found, it resolves to an empty array.
-
 
 ## Example
 
