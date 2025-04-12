@@ -25,6 +25,74 @@ describe("Naro", () => {
     const users = await db.getAll("users");
     expect(users).toHaveLength(5);
   });
+  test("getAll, should return all documents in the users collection (with filter ==)", async () => {
+    const db = new Naro(root);
+
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number(), age: 30 });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+
+    const users = await db.getAll("users", { filters: [{ field: "age", operator: "==", value: 30 }] });
+    expect(users).toHaveLength(1);
+  });
+  test("getAll, should return all documents in the users collection (with filter !=)", async () => {
+    const db = new Naro(root);
+
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number(), age: 30 });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+
+    const users = await db.getAll("users", { filters: [{ field: "age", operator: "!=", value: 30 }] });
+    expect(users).toHaveLength(2);
+  });
+  test("getAll, should return all documents in the users collection (with filter <)", async () => {
+    const db = new Naro(root);
+
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number(), age: 30 });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+
+    const users = await db.getAll("users", { filters: [{ field: "age", operator: "<", value: 30 }] });
+    expect(users).toHaveLength(0);
+  });
+  test("getAll, should return all documents in the users collection (with filter <=)", async () => {
+    const db = new Naro(root);
+
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number(), age: 30 });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+
+    const users = await db.getAll("users", { filters: [{ field: "age", operator: "<=", value: 30 }] });
+    expect(users).toHaveLength(1);
+  });
+  test("getAll, should return all documents in the users collection (with filter >)", async () => {
+    const db = new Naro(root);
+
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number(), age: 30 });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+
+    const users = await db.getAll("users", { filters: [{ field: "age", operator: ">", value: 30 }] });
+    expect(users).toHaveLength(0);
+  });
+  test("getAll, should return all documents in the users collection (with filter >=)", async () => {
+    const db = new Naro(root);
+
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number(), age: 30 });
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+
+    const users = await db.getAll("users", { filters: [{ field: "age", operator: ">=", value: 30 }] });
+    expect(users).toHaveLength(1);
+  });
+  test("getAll, should return all documents in the users collection (with limit)", async () => {
+    const db = new Naro(root);
+    for (let i = 0; i < 5; i++) {
+      await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+    }
+    const users = await db.getAll("users", { limit: 2 });
+    expect(users).toHaveLength(2);
+  });
   test("get, should return a document from the users collection", async () => {
     const db = new Naro(root);
     const newUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
