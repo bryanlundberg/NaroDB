@@ -39,6 +39,8 @@ export default defineConfig({
           { text: 'add', link: '/api-reference/add' },
           { text: 'update', link: '/api-reference/update' },
           { text: 'delete', link: '/api-reference/delete' },
+          { text: 'populate', link: '/api-reference/populate' },
+          { text: 'populateCollection', link: '/api-reference/populateCollection' },
         ]
       },
       {
