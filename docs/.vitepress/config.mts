@@ -18,18 +18,26 @@ export default defineConfig({
     },
     head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
     nav: [
-      { text: 'Guide', link: '/getting-started' },
-      { text: 'Examples', link: '/examples' }
+      { text: 'Guide', link: '/installation' },
+      { text: 'Examples', link: '/examples/index' }
     ],
 
     sidebar: [
       {
         text: 'Introduction',
         items: [
-          { text: 'Getting Started', link: '/getting-started' },
+          { text: 'About', link: '/about' },
           { text: 'Installation', link: '/installation' },
           { text: 'Usage', link: '/usage' }
         ]
+      },
+      {
+        text: 'Guides',
+        items: [
+          { text: 'Getting Started', link: '/examples/index.md' },
+          { text: 'Express.js', link: '/examples/express.md' },
+          { text: 'Nest.js', link: '/examples/nest.md' }
+        ],
       },
       {
         text: 'API Reference',

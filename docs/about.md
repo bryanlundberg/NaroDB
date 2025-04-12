@@ -1,4 +1,4 @@
-# Getting Started
+# About
 
 ## What is NaroDB?
 
