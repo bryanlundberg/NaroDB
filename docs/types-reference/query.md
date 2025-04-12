@@ -8,4 +8,4 @@ Query is used to specify the conditions for the query. It is an object, containi
 |----------|--------|--------------------|
 | `field`    | `string` | The field to query |
 | `operator` | `string` | The operator used  |
-| `value`    | `string` | The value to match |
+| `value`    | `string \| number` | The value to match |

@@ -8,3 +8,4 @@ Options are used to specify additional parameters for the query.
 |---------|---------|---------|
 | `filters` | `Query[]` |         |
 | `limit`   | `number`  |         |
+| `populate` | `string[]` |         |

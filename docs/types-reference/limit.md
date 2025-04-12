@@ -2,7 +2,7 @@
 
 ## Limit
 
-Limits are used to narrow down the results based on specific range.
+Limits are used to narrow down the results based on specific range. The Limit type is a number that specifies the maximum number of documents to return.
 
 
 ## Example

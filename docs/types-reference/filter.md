@@ -8,7 +8,7 @@ Filters are used to narrow down the results based on specific criteria.
 |------------|----------|-----------------------------------------------------------------------|
 | `field`    | `string` | The field to filter by (e.g., "age", "name").   |
 | `operator` | `string` | The comparison operator to apply (e.g., "==", ">=", "<"). |
-| `value`    | `any`    | The value to compare the field against.       |
+| `value`    | `string \| number`    | The value to compare the field against.       |
 
 
 ## Example

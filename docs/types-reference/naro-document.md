@@ -10,4 +10,5 @@ The `NaroDocument` type represents a document in the Naro system. It includes a 
 |-----------------|----------|----------------------------------------------|
 | `id`            | `string` | The unique identifier for the document.      |
 | `createdAt`     | `number` | The timestamp when the document was created. |
+| `path`          | `string` | The path where the document is stored.       |
 | `[key: string]` | `any`    | Any additional properties of the document.   |
