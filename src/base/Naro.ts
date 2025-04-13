@@ -25,9 +25,7 @@ export class Naro {
     this.dbName = dbName;
     const rootPath = `./data/${this.dbName}`;
     this.core = new Core(rootPath);
-    this.core.initialize().catch(error => {
-      throw new Error(`Failed to initialize core: ${error.message}`);
-    });
+    this.core.initialize()
   }
 
   /**
@@ -61,7 +59,7 @@ export class Naro {
     const newItem: NaroDocument = Object.assign(data, source);
     collection.push(newItem);
     this.core.updateCollection(collectionName, collection);
-    return newItem;
+    return _.cloneDeep(newItem);
   }
 
   /**
@@ -87,7 +85,6 @@ export class Naro {
   async getAll(path: string, options: Options = {}): Promise<NaroDocument[]> {
     const { collectionName } = NaroPath.validate(path);
     const collection = cloneDeep(this.core.getCollection(collectionName));
-    if (!collection) throw new Error(`Collection ${collectionName} does not exist`);
     const { filters, limit, populate } = options;
 
     let filteredCollection = collection;
@@ -108,7 +105,8 @@ export class Naro {
    * @return {NaroDocument[]} A new array of `NaroDocument` objects that satisfy all the specified filters.
    */
   private filterCollection(docs: NaroDocument[], filters: Query[]): NaroDocument[] {
-    return docs.filter(doc =>
+    if (!filters.every(q => ["==", "!=", "<", "<=", ">", ">="].includes(q.operator))) throw new Error("Invalid operator in filter");
+      return docs.filter(doc =>
       filters.every((q: Query) => {
         const { field, operator, value } = q;
         const docValue = doc[field];
@@ -125,8 +123,6 @@ export class Naro {
             return docValue > value;
           case ">=":
             return docValue >= value;
-          default:
-            return false;
         }
       })
     );
@@ -163,20 +159,20 @@ export class Naro {
    * // }
    */
   async populate(doc: NaroDocument, populateFields: string[] | undefined): Promise<NaroDocument> {
-    if (!populateFields?.length) return doc;
-    const populatedDoc = cloneDeep(doc);
+    if (!populateFields) return doc;
+    if (!populateFields.length) throw new Error("Populate fields cannot be an empty array");
 
     await Promise.all(populateFields.map(async (field) => {
-      const refPath = populatedDoc[field];
+      const refPath = doc[field];
       if (typeof refPath === "string") {
         const refDoc = await this.get(refPath);
         if (refDoc) {
-          populatedDoc[field] = refDoc;
+          doc[field] = refDoc;
         }
       }
     }));
 
-    return populatedDoc;
+    return _.cloneDeep(doc);
   }
 
   /**
@@ -364,7 +360,6 @@ export class Naro {
   async count(path: string): Promise<number> {
     const { collectionName } = NaroPath.validate(path);
     const collection = this.core.getCollection(collectionName);
-    if (!collection) throw new Error(`Collection ${collectionName} does not exist`);
     return collection.length;
   }
 }

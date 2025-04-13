@@ -3,8 +3,20 @@ import { Naro } from "../../../src";
 import { faker } from "@faker-js/faker/locale/en";
 import { Core } from "../../../src/core/Core";
 import { remove } from "fs-jetpack";
+import { Operator } from "../../../src/types/Operator.type";
 
 const root = "temp";
+
+test("throws error if dbName contains a forward slash", () => {
+  expect(() => new Naro("invalid/dbName")).toThrowError();
+});
+
+test("initializes core with the correct root path", async () => {
+  const dbName = "validDbName";
+  const db = new Naro(dbName);
+  expect(db).toHaveProperty("dbName", dbName);
+  expect(db).toHaveProperty("core");
+});
 
 test("add, should add a new document to the users collection", async () => {
   const db = new Naro(root);
@@ -93,6 +105,15 @@ test("getAll, should return all documents in the users collection (with filter >
   expect(users).toHaveLength(1);
 });
 
+test("getAll, should not found results using an unknown operator (with filter unknown.simbol)", async () => {
+  const db = new Naro(root);
+  await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+  await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number(), age: 30 });
+  await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+  await expect(async () => {
+    await db.getAll("users", { filters: [{ field: "age", operator: "unknown.simbol" as Operator, value: 30 }] });
+  }).rejects.toThrowError("Invalid operator in filter");});
+
 test("getAll, should return all documents in the users collection (with limit)", async () => {
   const db = new Naro(root);
   for (let i = 0; i < 5; i++) {
@@ -129,6 +150,42 @@ test("getAll, should return all documents in the users collection (with populate
       path: expect.any(String)
     }
   ]);
+});
+
+test("populate, should try populate a single document", async () => {
+  const db = new Naro(root);
+  const user = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+  const product = await db.add("products", {
+    name: faker.commerce.productName(),
+    price: faker.commerce.price(),
+    owner: `users/${user.id}`
+  });
+  const productPopulated = await db.populate(product, ["owner"]);
+  expect(productPopulated).toEqual({
+    name: expect.any(String),
+    price: expect.any(String),
+    owner: {
+      name: expect.any(String),
+      phone: expect.any(String),
+      id: expect.any(String),
+      createdAt: expect.any(Number),
+      path: expect.any(String)
+    },
+    id: expect.any(String),
+    createdAt: expect.any(Number),
+    path: expect.any(String)
+  });
+});
+
+test("populate, should throw error doing a bad request for populate fields ([])", async () => {
+  const db = new Naro(root);
+  const user = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+  const product = await db.add("products", {
+    name: faker.commerce.productName(),
+    price: faker.commerce.price(),
+    owner: `users/${user.id}`
+  });
+  await expect(async () => await db.populate(product, [])).rejects.toThrowError();
 });
 
 test("count, should return the number of documents in the users collection", async () => {

@@ -143,3 +143,6 @@ test("Throws error if path has more parts than allowed", () => {
   expect(() => NaroPath.validate("collectionName/1234/subCollectionName/5678/extraPart")).toThrowError();
 });
 
+test("Throws error if path is empty", () => {
+  expect(() => NaroPath.validate("")).toThrowError();
+});

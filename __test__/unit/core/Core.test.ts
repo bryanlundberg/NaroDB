@@ -69,3 +69,33 @@ test("getCollection should return an existing collection", async () => {
   await core.initialize();
   expect(core.getCollection(COLLECTION_NAME)).toStrictEqual(data);
 });
+
+test("writeCollection creates directory and writes data to the correct path", async () => {
+  const core = new Core(DIRNAME_MOCK);
+  const collectionName = "testCollection";
+  const data = [...USERS_MOCK];
+  core.updateCollection(collectionName, data);
+
+  await core.writeCollection(collectionName);
+
+  const filePath = `${DIRNAME_MOCK}/${collectionName}/${FILENAME_MOCK}`;
+  const writtenData = await NaroFiler.readBinaryFile(filePath);
+  expect(writtenData).toEqual(data);
+});
+
+test("writeCollection overwrites existing data in the collection", async () => {
+  const core = new Core(DIRNAME_MOCK);
+  const collectionName = "testCollection";
+  const initialData = [USERS_MOCK[0]];
+  const updatedData = [...USERS_MOCK];
+
+  core.updateCollection(collectionName, initialData);
+  await core.writeCollection(collectionName);
+
+  core.updateCollection(collectionName, updatedData);
+  await core.writeCollection(collectionName);
+
+  const filePath = `${DIRNAME_MOCK}/${collectionName}/${FILENAME_MOCK}`;
+  const writtenData = await NaroFiler.readBinaryFile(filePath);
+  expect(writtenData).toEqual(updatedData);
+});
