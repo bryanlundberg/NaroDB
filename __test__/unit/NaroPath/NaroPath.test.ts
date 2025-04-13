@@ -105,3 +105,41 @@ test("Handles path with mixed case correctly", () => {
   expect(subCollectionId).toBe("5678");
 });
 
+test("Throws error if path contains spaces", () => {
+  expect(() => NaroPath.validate("collection name/1234")).toThrowError();
+});
+
+test("Handles path with hyphens correctly", () => {
+  const {
+    collectionName,
+    collectionId,
+    subCollectionName,
+    subCollectionId
+  } = NaroPath.validate("collection-name/1234/sub-collection-name/5678");
+  expect(collectionName).toBe("collection-name");
+  expect(collectionId).toBe("1234");
+  expect(subCollectionName).toBe("sub-collection-name");
+  expect(subCollectionId).toBe("5678");
+});
+
+test("Throws error if path contains consecutive slashes", () => {
+  expect(() => NaroPath.validate("collectionName//1234")).toThrowError();
+});
+
+test("Handles path with underscores correctly", () => {
+  const {
+    collectionName,
+    collectionId,
+    subCollectionName,
+    subCollectionId
+  } = NaroPath.validate("collection_name/1234/sub_collection_name/5678");
+  expect(collectionName).toBe("collection_name");
+  expect(collectionId).toBe("1234");
+  expect(subCollectionName).toBe("sub_collection_name");
+  expect(subCollectionId).toBe("5678");
+});
+
+test("Throws error if path has more parts than allowed", () => {
+  expect(() => NaroPath.validate("collectionName/1234/subCollectionName/5678/extraPart")).toThrowError();
+});
+

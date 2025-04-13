@@ -131,6 +131,50 @@ test("getAll, should return all documents in the users collection (with populate
   ]);
 });
 
+test("count, should return the number of documents in the users collection", async () => {
+  const db = new Naro(root);
+  for (let i = 0; i < 5; i++) {
+    await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+  }
+  const count = await db.count("users");
+  expect(count).toBe(5);
+});
+
+test("count, should return 0 if the collection is empty", async () => {
+  const db = new Naro(root);
+  const count = await db.count("users");
+  expect(count).toBe(0);
+});
+
+test("count, should throw an error if the collection does not exist", async () => {
+  const db = new Naro(root);
+  try {
+    await db.count("nonexistent");
+  } catch (error) {
+    expect(error).toHaveProperty("message", "Collection nonexistent does not exist");
+  }
+});
+
+test("exists, should return true if the document exists", async () => {
+  const db = new Naro(root);
+  const newUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+  const exists = await db.exists(`users/${newUser.id}`);
+  expect(exists).toBe(true);
+});
+
+test("exists, should return false if the document does not exist", async () => {
+  const db = new Naro(root);
+  await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+  const exists = await db.exists("users/123");
+  expect(exists).toBe(false);
+});
+
+test("exists, should return false if the collection does not exist", async () => {
+  const db = new Naro(root);
+  const exists = await db.exists("nonexistent/123");
+  expect(exists).toBe(false);
+});
+
 test("get, should return a document from the users collection", async () => {
   const db = new Naro(root);
   const newUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });

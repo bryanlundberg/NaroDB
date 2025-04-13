@@ -23,7 +23,7 @@ export class NaroPath {
     subCollectionId?: string;
   } {
     const invalidChars = /[^a-zA-Z0-9/_-]/;
-    if (invalidChars.test(path)) throw new Error("Path contains invalid characters.");
+    if (invalidChars.test(path) || path.includes('//')) throw new Error("Path contains invalid characters or consecutive slashes.");
     if (path.endsWith('/')) throw new Error("Path should not end with a '/'.");
     if (!path) throw new Error("Empty path provided.");
     const pathParts = path.split('/');

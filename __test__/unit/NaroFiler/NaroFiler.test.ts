@@ -20,11 +20,18 @@ test("writeBinaryFile", async () => {
   expect(await NaroFiler.readBinaryFile(filePath)).toEqual(data);
 });
 
-test("readBinaryFile", async () => {
+test("readBinaryFile returns decoded data when file exists", async () => {
   const filePath = `${DIRNAME_MOCK}/${COLLECTION_NAME}/${FILENAME_MOCK}`;
   const data = [...USERS_MOCK];
   await NaroFiler.writeBinaryFile(filePath, data);
-  expect(await NaroFiler.readBinaryFile(filePath)).toEqual([...USERS_MOCK]);
+  const result = await NaroFiler.readBinaryFile(filePath);
+  expect(result).toEqual(data);
+});
+
+test("readBinaryFile returns empty array when file does not exist", async () => {
+  const filePath = `${DIRNAME_MOCK}/nonexistent-file`;
+  const result = await NaroFiler.readBinaryFile(filePath);
+  expect(result).toEqual([]);
 });
 
 test("listDirectories", async () => {

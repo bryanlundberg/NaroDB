@@ -7,16 +7,16 @@ export class NaroFiler {
   }
 
   static async readBinaryFile(path: string): Promise<any[]> {
-      const data = await readAsync(path, "buffer");
-      return data ? msgpack.decode(data) : [];
+    const data = await readAsync(path, "buffer");
+    return data ? msgpack.decode(data) : [];
   }
 
   static async writeBinaryFile(path: string, data: any[]): Promise<void> {
     return await writeAsync(path, msgpack.encode(data));
   }
 
-  static async listDirectories(path: string){
-    const directory = await inspectTreeAsync(path)
+  static async listDirectories(path: string) {
+    const directory = await inspectTreeAsync(path);
     if (!directory) return [];
     return directory.children.filter((child) => child.type === "dir").map((child) => child.name);
   }
