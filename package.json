@@ -40,7 +40,8 @@
     "pack": "npm run build && npm pack",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "fs-jetpack": "^5.1.0",
@@ -51,6 +52,7 @@
   "devDependencies": {
     "@faker-js/faker": "^9.6.0",
     "@types/lodash": "^4.17.16",
+    "@vitest/coverage-v8": "^3.1.1",
     "typedoc": "^0.28.2",
     "vitepress": "^1.6.3",
     "vitest": "^3.0.9"
