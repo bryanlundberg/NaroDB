@@ -40,8 +40,8 @@ export class Naro {
 
     process.setMaxListeners(Infinity);
     process.on('exit', cleanUpAndExit);
-    process.on('SIGINT', cleanUpAndExit);
-    process.on('SIGTERM', cleanUpAndExit);
+    process.on('SIGINT', () => cleanUpAndExit(0));
+    process.on('SIGTERM', () => cleanUpAndExit(0));
   }
 
   /**
