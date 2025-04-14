@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, expect, test } from "vitest";
-import { dirAsync, exists, existsAsync, remove } from "fs-jetpack";
+import { dirAsync, exists, remove } from "fs-jetpack";
 import { COLLECTION_NAME, DIRNAME_MOCK, FILENAME_MOCK, USERS_MOCK } from "../constants-test";
 import { NaroFiler } from "../../../src/manage/files/NaroFiler";
 
