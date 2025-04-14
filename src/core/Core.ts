@@ -36,11 +36,11 @@ export class Core {
     return this.collections[name];
   }
 
-  updateCollection(name: string, data: any[]) {
+  updateCollection(name: string, data: any[]): void {
     this.collections[name] = cloneDeep(data);
   }
 
-  writeCollections() {
+  writeCollections(): void {
     Object.keys(this.collections).forEach((collectionName) => {
       const collectionPath = `${this.rootPath}/${collectionName}`;
       NaroFiler.ensureDirectory(collectionPath);
@@ -49,10 +49,10 @@ export class Core {
     });
   }
 
-  async writeCollection(path: string) {
+  writeCollection(path: string): void {
     const collectionPath = `${this.rootPath}/${path}`;
-    await NaroFiler.ensureDirectory(collectionPath);
+    NaroFiler.ensureDirectory(collectionPath);
     const dataPath = `${collectionPath}/${this.logFileName}`;
-    await NaroFiler.writeBinaryFile(dataPath, this.collections[path]);
+    NaroFiler.writeBinaryFile(dataPath, this.collections[path]);
   }
 }

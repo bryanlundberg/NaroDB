@@ -63,7 +63,7 @@ export class Naro {
    * @return {Promise<void>} A promise that resolves when the write operation completes successfully.
    */
   async writeToDisk(): Promise<void> {
-    await this.core.writeCollections();
+    this.core.writeCollections();
   }
 
   /**

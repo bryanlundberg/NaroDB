@@ -51,7 +51,6 @@ test("getAll, should return all documents in the users collection (with filter =
   await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
 
   const users = await db.getAll("users", { filters: [{ field: "age", operator: "==", value: 30 }] });
-  console.log(users);
   expect(users).toHaveLength(1);
 });
 
@@ -286,8 +285,8 @@ test("writeToDisk, should write a single collection to disk", async () => {
   await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
   expect(async () => await db.writeToDisk()).not.toThrow();
   const core = new Core("./data/" + dbName);
-  await core.initialize();
-  const collections = await core.loadCollections();
+  core.initialize();
+  const collections = core.loadCollections();
   expect(collections).toEqual({ users: expect.anything() });
 });
 
@@ -297,8 +296,8 @@ test("writeToDisk, should write multiple collections to disk", async () => {
   await db.add("products", { name: faker.commerce.productName(), price: faker.commerce.price() });
   expect(async () => await db.writeToDisk()).not.toThrow();
   const core = new Core("./data/" + dbName);
-  await core.initialize();
-  const collections = await core.loadCollections();
+  core.initialize();
+  const collections = core.loadCollections();
   expect(collections).toEqual({
     users: expect.anything(),
     products: expect.anything()

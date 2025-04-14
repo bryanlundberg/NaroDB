@@ -6,7 +6,7 @@ export class NaroFiler {
     dir(path);
   }
 
-  static readBinaryFile(path: string) {
+  static readBinaryFile(path: string): any[] {
     const data = read(path, "buffer");
     return data ? msgpack.decode(data) : [];
   }
@@ -15,7 +15,7 @@ export class NaroFiler {
     return write(path, msgpack.encode(data));
   }
 
-  static listDirectories(path: string) {
+  static listDirectories(path: string): string[] {
     const directory = inspectTree(path);
     if (!directory) return [];
     return directory.children.filter((child) => child.type === "dir").map((child) => child.name);
