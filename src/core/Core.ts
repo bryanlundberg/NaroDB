@@ -42,10 +42,8 @@ export class Core {
 
   writeCollections(): void {
     Object.keys(this.collections).forEach((collectionName) => {
-      const collectionPath = `${this.rootPath}/${collectionName}`;
-      NaroFiler.ensureDirectory(collectionPath);
-      const dataPath = `${collectionPath}/${this.logFileName}`;
-      NaroFiler.writeBinaryFile(dataPath, this.collections[collectionName]);
+      const collectionPath = `${this.rootPath}/${collectionName}/${this.logFileName}`;
+      NaroFiler.writeBinaryFile(collectionPath, this.collections[collectionName]);
     });
   }
 

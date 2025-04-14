@@ -25,36 +25,23 @@ export class Naro {
     this.dbName = dbName;
     const rootPath = `./data/${this.dbName}`;
     this.core = new Core(rootPath);
-    this.core.initialize()
-
-    process.setMaxListeners(Infinity);
-
-    process.on('exit', async () => {
-      this.core.writeCollections();
-      this.cleanUp();
-    });
-
-    process.on('SIGINT', async () => {
-      this.core.writeCollections();
-      this.cleanUp();
-      process.exit(0);
-    });
-
-    process.on('SIGTERM', async () => {
-      this.core.writeCollections();
-      this.cleanUp();
-      process.exit(0);
-    });
+    this.core.initialize();
+    this.registerProcessListeners();
   }
 
-  /**
-   * Cleans up event listeners to prevent memory leaks.
-   *
-   */
-  private cleanUp() {
-    process.removeAllListeners('exit');
-    process.removeAllListeners('SIGINT');
-    process.removeAllListeners('SIGTERM');
+  private registerProcessListeners() {
+    const cleanUpAndExit = async (exitCode?: number) => {
+      this.core.writeCollections();
+      process.removeAllListeners('exit');
+      process.removeAllListeners('SIGINT');
+      process.removeAllListeners('SIGTERM');
+      if (exitCode !== undefined) process.exit(exitCode);
+    };
+
+    process.setMaxListeners(Infinity);
+    process.on('exit', cleanUpAndExit);
+    process.on('SIGINT', cleanUpAndExit);
+    process.on('SIGTERM', cleanUpAndExit);
   }
 
   /**
@@ -135,7 +122,7 @@ export class Naro {
    */
   private filterCollection(docs: NaroDocument[], filters: Query[]): NaroDocument[] {
     if (!filters.every(q => ["==", "!=", "<", "<=", ">", ">="].includes(q.operator))) throw new Error("Invalid operator in filter");
-      return docs.filter(doc =>
+    return docs.filter(doc =>
       filters.every((q: Query) => {
         const { field, operator, value } = q;
         const docValue = doc[field];
