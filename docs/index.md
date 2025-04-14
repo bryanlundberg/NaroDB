@@ -4,28 +4,28 @@ layout: home
 
 hero:
   name: "NaroDB"
-  text: "Lightweight NoSQL Database"
-  tagline: Fast and simple local data storage manager with MessagePack
+  text: "The Ultimate Lightweight NoSQL Database"
+  tagline: Built for Modern JavaScript Applications
   actions:
     - theme: brand
       text: Get Started
       link: /about
     - theme: alt
       text: API Examples
-      link: /examples
+      link: /guides
 
 features:
-  - icon: 📄
-    title: MessagePack Binaries
-    details: Compact binary format for optimal storage and performance.
-  - icon: ⚡
+  - icon: 📦
     title: High Performance
-    details: Execute fast and efficient database operations with a simple and intuitive API.
-  - icon: 🔧
-    title: Simple & Lightweight
-    details: Minimal setup with no complex configuration.
-  - icon: 🔄
-    title: Flexible Data Storage
-    details: Store and retrieve any JavaScript data structure with automatic ID generation.
+    details: Execute super fast operations with automatic and cache-first handling out of the box.
+  - icon: 🗜️
+    title: Compact Binary Format
+    details: Encode and decode MessagePack binaries for lower storage size.
+  - icon: 🪶
+    title: API-Friendly
+    details: Use a simple and intuitive API for easy integration with your applications.
+  - icon: ⚙️
+    title: Ready to Use
+    details: No configurations needed, start using it right away.
 ---
 

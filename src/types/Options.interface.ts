@@ -5,4 +5,5 @@ export interface Options {
   filters?: Query[];
   limit?: Limit;
   populate?: string[];
+  offset?: number;
 }
