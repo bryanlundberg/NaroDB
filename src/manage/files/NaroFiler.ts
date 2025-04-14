@@ -1,22 +1,22 @@
 import msgpack from "notepack.io";
-import { dirAsync, inspectTreeAsync, readAsync, writeAsync } from "fs-jetpack";
+import { dir, inspectTree, read, write } from "fs-jetpack";
 
 export class NaroFiler {
-  static async ensureDirectory(path: string): Promise<void> {
-    await dirAsync(path);
+  static ensureDirectory(path: string): void {
+    dir(path);
   }
 
-  static async readBinaryFile(path: string): Promise<any[]> {
-    const data = await readAsync(path, "buffer");
+  static readBinaryFile(path: string) {
+    const data = read(path, "buffer");
     return data ? msgpack.decode(data) : [];
   }
 
-  static async writeBinaryFile(path: string, data: any[]): Promise<void> {
-    return await writeAsync(path, msgpack.encode(data));
+  static writeBinaryFile(path: string, data: any[]): void {
+    return write(path, msgpack.encode(data));
   }
 
-  static async listDirectories(path: string) {
-    const directory = await inspectTreeAsync(path);
+  static listDirectories(path: string) {
+    const directory = inspectTree(path);
     if (!directory) return [];
     return directory.children.filter((child) => child.type === "dir").map((child) => child.name);
   }

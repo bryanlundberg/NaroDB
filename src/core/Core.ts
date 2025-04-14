@@ -1,5 +1,5 @@
 import { NaroFiler } from "../manage/files/NaroFiler";
-import { fileAsync } from "fs-jetpack";
+import { file } from "fs-jetpack";
 import { cloneDeep } from "lodash";
 
 export class Core {
@@ -11,22 +11,22 @@ export class Core {
     this.rootPath = rootPath;
   }
 
-  async initialize() {
-    await NaroFiler.ensureDirectory(this.rootPath);
-    await this.loadCollections();
+  initialize() {
+    NaroFiler.ensureDirectory(this.rootPath);
+    this.loadCollections();
   }
 
   getStructuredCollections() {
     return this.collections;
   }
 
- async loadCollections() {
-    const directories = await NaroFiler.listDirectories(this.rootPath);
+  loadCollections() {
+    const directories = NaroFiler.listDirectories(this.rootPath);
     for (const folderName of directories) {
       const folderPath = `${this.rootPath}/${folderName}`;
       const dataPath = `${folderPath}/${this.logFileName}`;
-      await fileAsync(dataPath);
-      this.collections[folderName] = await NaroFiler.readBinaryFile(dataPath);
+      file(dataPath);
+      this.collections[folderName] = NaroFiler.readBinaryFile(dataPath);
     }
     return this.collections;
   }
@@ -37,10 +37,10 @@ export class Core {
   }
 
   updateCollection(name: string, data: any[]) {
-    this.collections[name] = cloneDeep(data)
+    this.collections[name] = cloneDeep(data);
   }
 
-  async writeCollections() {
+  writeCollections() {
     Object.keys(this.collections).forEach((collectionName) => {
       const collectionPath = `${this.rootPath}/${collectionName}`;
       NaroFiler.ensureDirectory(collectionPath);

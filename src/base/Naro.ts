@@ -28,9 +28,33 @@ export class Naro {
     this.core.initialize()
 
     process.setMaxListeners(Infinity);
-    process.on('exit', this.core.writeCollections.bind(this.core));
-    process.on('SIGINT', this.core.writeCollections.bind(this.core));
-    process.on('SIGTERM', this.core.writeCollections.bind(this.core));
+
+    process.on('exit', async () => {
+      this.core.writeCollections();
+      this.cleanUp();
+    });
+
+    process.on('SIGINT', async () => {
+      this.core.writeCollections();
+      this.cleanUp();
+      process.exit(0);
+    });
+
+    process.on('SIGTERM', async () => {
+      this.core.writeCollections();
+      this.cleanUp();
+      process.exit(0);
+    });
+  }
+
+  /**
+   * Cleans up event listeners to prevent memory leaks.
+   *
+   */
+  private cleanUp() {
+    process.removeAllListeners('exit');
+    process.removeAllListeners('SIGINT');
+    process.removeAllListeners('SIGTERM');
   }
 
   /**
