@@ -6,6 +6,10 @@ hero:
   name: "NaroDB"
   text: "The Ultimate Lightweight NoSQL Database"
   tagline: Built for Modern JavaScript Applications
+  image:
+    light: /logo_large_dark.svg
+    dark: /logo_large_light.svg
+    alt: NaroDB Logo
   actions:
     - theme: brand
       text: Get Started

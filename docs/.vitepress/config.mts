@@ -4,11 +4,14 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "NaroDB",
   siteTitle: "NaroDB",
-  logo: "/favicon.ico",
   lastUpdated: true,
   description: "A lightweight NoSQL database that encode and decode MessagePack binaries.",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    logo: {
+      light: '/logo_large_dark.svg',
+      dark: '/logo_large_light.svg'
+    },
     sitemap: {
       hostname: 'https://naro-db.vercel.app',
     },
@@ -21,7 +24,6 @@ export default defineConfig({
       { text: 'Guide', link: '/installation' },
       { text: 'Examples', link: '/guides/index' }
     ],
-
     sidebar: [
       {
         text: 'Introduction',
@@ -65,7 +67,6 @@ export default defineConfig({
         ]
       }
     ],
-
     socialLinks: [
       { icon: 'github', link: 'https://github.com/bryanlundberg/NaroDB' }
     ],

@@ -1,3 +1,7 @@
+# NaroDB
+
+![NaroDB Logo](./docs/public/logo_small.png)
+
 A lightweight NoSQL database that encode and decode MessagePack binaries.
 
 ## License
