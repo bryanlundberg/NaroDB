@@ -87,6 +87,7 @@ export class Naro {
    * @param {Query[]} [options.filters] - An array of filter conditions to apply to the documents.
    * @param {number} [options.limit] - Maximum number of documents to retrieve.
    * @param {string[]} [options.populate] - An array of fields to populate.
+   * @param {number} [options.offset] - Number of documents to skip before starting to collect the result set.
    * @return {Promise<NaroDocument[]>} A promise that resolves to an array of documents matching the specified filters and limits, with populated fields.
    * @throws {Error} If the specified collection or referenced collection does not exist.
    *
@@ -101,11 +102,12 @@ export class Naro {
   async getAll(path: string, options: Options = {}): Promise<NaroDocument[]> {
     const { collectionName } = NaroPath.validate(path);
     const collection = cloneDeep(this.core.getCollection(collectionName));
-    const { filters, limit, populate } = options;
+    const { filters, limit, populate, offset = 0 } = options;
 
     let filteredCollection = collection;
 
     filteredCollection = this.filterCollection(filteredCollection, filters || []);
+    filteredCollection = filteredCollection.slice(offset);
     filteredCollection = this.limitDocuments(filteredCollection, limit);
     filteredCollection = await this.populateCollection(filteredCollection, populate);
 
