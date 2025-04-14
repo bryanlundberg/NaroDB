@@ -26,6 +26,11 @@ export class Naro {
     const rootPath = `./data/${this.dbName}`;
     this.core = new Core(rootPath);
     this.core.initialize()
+
+    process.setMaxListeners(Infinity);
+    process.on('exit', this.core.writeCollections.bind(this.core));
+    process.on('SIGINT', this.core.writeCollections.bind(this.core));
+    process.on('SIGTERM', this.core.writeCollections.bind(this.core));
   }
 
   /**
