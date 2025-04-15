@@ -16,7 +16,7 @@ export default defineConfig({
       hostname: 'https://naro-db.vercel.app',
     },
     editLink: {
-      pattern: 'https://github.com/bryanlundberg/NaroDB/tree/main/docs/:path',
+      pattern: 'https://github.com/narodb/naro/tree/main/docs/:path',
       text: 'Edit this page on GitHub'
     },
     head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
@@ -68,11 +68,11 @@ export default defineConfig({
       }
     ],
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/bryanlundberg/NaroDB' }
+      { icon: 'github', link: 'https://github.com/narodb/naro' }
     ],
     footer: {
       message: 'Released under the SSPL License.',
-      copyright: 'Copyright © 2025-present Bryan Lundberg'
+      copyright: 'Copyright © 2025-present NaroDB, Inc.'
     },
     search: {
       provider: 'local'

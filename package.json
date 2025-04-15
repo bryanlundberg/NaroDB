@@ -25,9 +25,9 @@
   "license": "SSPL",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bryanlundberg/NaroDB"
+    "url": "https://github.com/narodb/naro"
   },
-  "homepage": "https://github.com/bryanlundberg/NaroDB",
+  "homepage": "https://github.com/narodb/naro",
   "scripts": {
     "dev:bun": "bun ./src/index.ts",
     "dev:node": "npx tsx ./src/index.ts",
