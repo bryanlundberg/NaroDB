@@ -23,6 +23,10 @@ tsconfig.json
 webpack.config.js
 rollup.config.js
 vite.config.js
+tsconfig.ts
+tsconfig.cjs.json
+tsconfig.esm.json
+vitest.config.js
 
 src/
 

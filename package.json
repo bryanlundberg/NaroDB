@@ -1,6 +1,5 @@
 {
-  "name": "narodb",
-  "private": true,
+  "name": "@narodb/narodb",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
@@ -18,14 +17,11 @@
     "fast",
     "lightweight"
   ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "author": "Bryan Lundberg",
-  "license": "SSPL",
+  "license": "SSPL-1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/narodb/naro"
+    "url": "git+https://github.com/narodb/naro.git"
   },
   "homepage": "https://github.com/narodb/naro",
   "scripts": {
@@ -56,5 +52,12 @@
     "typedoc": "^0.28.2",
     "vitepress": "^1.6.3",
     "vitest": "^3.0.9"
+  },
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "bugs": {
+    "url": "https://github.com/narodb/naro/issues"
   }
 }
