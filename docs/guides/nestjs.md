@@ -19,7 +19,7 @@ nest new project-name
 
 ```bash
 cd project-name
-npm install narodb
+npm install @narodb/naro
 ```
 
 ## Integrating NaroDB with Nest.js

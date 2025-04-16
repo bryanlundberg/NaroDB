@@ -14,7 +14,7 @@ npm init -y
 3. Install Express.js and NaroDB:
 
 ```bash
-npm install express narodb
+npm install express @narodb/naro
 ```
 
 ## Setting Up Middleware
@@ -39,7 +39,7 @@ Here's how to integrate NaroDB with Express.js:
 
 ```javascript
 const express = require("express");
-const { Naro } = require("narodb");
+const { Naro } = require("@narodb/naro");
 const app = express();
 const port = 3000;
 
@@ -116,7 +116,7 @@ For larger applications, it's better to organize your code into separate files:
 
 ```javascript
 // db.js
-const { Naro } = require("narodb");
+const { Naro } = require("@narodb/naro");
 
 const db = new Naro("expressDatabase");
 
