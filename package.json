@@ -23,6 +23,9 @@
     "type": "git",
     "url": "git+https://github.com/narodb/naro.git"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "homepage": "https://github.com/narodb/naro",
   "scripts": {
     "dev:bun": "bun ./src/index.ts",
