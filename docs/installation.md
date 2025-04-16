@@ -1,33 +1,25 @@
 # Installation
 
-This package is currently under development and will be available soon. Stay tuned for updates!
+This package is now published and available for installation. Get started today!
 
 
 ::: code-group
 
 ```bash [npm]
-npm install <soon-to-be-released-package-name>
+npm install @narodb/naro
 ```
 
 ```bash [pnpm]
-pnpm add <soon-to-be-released-package-name>
+pnpm add @narodb/naro
 ```
 
 ```bash [yarn]
-yarn add <soon-to-be-released-package-name>
+yarn add @narodb/naro
 ```
 
 ```bash [bun]
-bun add <soon-to-be-released-package-name>
+bun add @narodb/naro
 ```
 
-:::
-
-
-Stay connected for the official release! 🚀
-
-
-::: danger
-This is not published yet. The package is still under development and will be available soon.
 :::
 

@@ -5,7 +5,7 @@ Designed to be simple and easy to use. Below are some common examples of how to 
 ## Initialize the Database
 
 ```javascript
-import { NaroDB } from 'narodb';
+import { NaroDB } from '@narodb/naro';
 
 // Initialize the database
 const db = new NaroDB("my-database-name");

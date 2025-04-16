@@ -46,7 +46,7 @@ export class DatabaseModule {}
 ```typescript
 // src/database/database.service.ts
 import { Injectable } from '@nestjs/common';
-import { Naro } from 'narodb';
+import { Naro } from '@narodb/naro';
 
 @Injectable()
 export class DatabaseService {
