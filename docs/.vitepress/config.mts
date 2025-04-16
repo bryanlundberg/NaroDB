@@ -13,7 +13,7 @@ export default defineConfig({
       dark: '/logo_large_light.svg'
     },
     sitemap: {
-      hostname: 'https://naro-db.vercel.app',
+      hostname: 'https://narodb.netlify.app',
     },
     editLink: {
       pattern: 'https://github.com/narodb/naro/tree/main/docs/:path',
