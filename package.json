@@ -1,5 +1,5 @@
 {
-  "name": "@narodb/narodb",
+  "name": "@narodb/naro",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
