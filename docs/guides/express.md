@@ -22,8 +22,7 @@ npm install express @narodb/naro
 Here's how to integrate NaroDB with Express.js:
 
 ::: code-group
-
-```javascript{2,10-30}
+```js {2,10-30} [app.js]
 const express = require("express");
 const { Naro } = require("@narodb/naro");
 const app = express();
@@ -61,7 +60,7 @@ app.listen(port, () => {
 });
 ```
 
-```typescript{2,10-30}
+```ts {2,10-30} [app.ts]
 import express from "express";
 import { Naro } from "@narodb/naro";
 const app = express();
@@ -106,19 +105,20 @@ For larger applications, it's better to organize your code into separate files:
 
 ### Database Configuration
 
-```javascript
-// db.js
+::: code-group
+```js [db.js]
 const { Naro } = require("@narodb/naro");
 
 const db = new Naro("expressDatabase");
 
 module.exports = db;
 ```
+:::
 
 ### Routes
 
-```javascript
-// routes/users.js
+::: code-group
+```js [routes/users.js]
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
@@ -145,11 +145,12 @@ router.get("/", async (req, res) => {
 
 module.exports = router;
 ```
+:::
 
 ### Main Application File
 
-```javascript
-// app.js
+::: code-group
+```js [app.js]
 const express = require("express");
 const usersRoutes = require("./routes/users");
 const app = express();
@@ -167,6 +168,7 @@ app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
 ```
+:::
 
 In this guide, we explored how to set up and integrate Express.js with NaroDB to create a simple application for
 managing data.
