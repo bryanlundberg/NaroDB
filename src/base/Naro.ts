@@ -134,13 +134,13 @@ export class Naro {
           case "!=":
             return docValue != value;
           case "<":
-            return docValue < value;
+            return typeof docValue === "number" && typeof value === "number" && !Number.isNaN(docValue) && !Number.isNaN(value) && docValue < value;
           case "<=":
-            return docValue <= value;
+            return typeof docValue === "number" && typeof value === "number" && !Number.isNaN(docValue) && !Number.isNaN(value) && docValue <= value;
           case ">":
-            return docValue > value;
+            return typeof docValue === "number" && typeof value === "number" && !Number.isNaN(docValue) && !Number.isNaN(value) && docValue > value;
           case ">=":
-            return docValue >= value;
+            return typeof docValue === "number" && typeof value === "number" && !Number.isNaN(docValue) && !Number.isNaN(value) && docValue >= value;
         }
       })
     );
