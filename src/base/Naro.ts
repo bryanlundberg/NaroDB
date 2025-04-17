@@ -23,7 +23,7 @@ export class Naro {
   constructor(dbName: string) {
     if (dbName.includes('/')) throw new Error("dbName cannot contain '/'");
     this.dbName = dbName;
-    const rootPath = `./data/${this.dbName}`;
+    const rootPath = `${process.cwd()}/data/${this.dbName}`;
     this.core = new Core(rootPath);
     this.core.initialize();
     this.registerProcessListeners();
