@@ -4,8 +4,8 @@ layout: home
 
 hero:
   name: "NaroDB"
-  text: "The Ultimate Lightweight NoSQL Database"
-  tagline: Built for Modern JavaScript Applications
+  text:  In-Memory Database
+  tagline: Built for Modern JavaScript Server Applications
   image:
     light: /logo_large_dark.svg
     dark: /logo_large_light.svg
