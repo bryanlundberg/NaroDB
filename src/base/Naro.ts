@@ -1,4 +1,4 @@
-import _, { cloneDeep } from 'lodash';
+import * as _ from 'lodash';
 import { Core } from "../core/Core";
 import { NaroPath } from "../manage/paths/NaroPath";
 import { NaroId } from "../utils/IdGenerator";
@@ -101,7 +101,7 @@ export class Naro {
    */
   async getAll(path: string, options: Options = {}): Promise<NaroDocument[]> {
     const { collectionName } = NaroPath.validate(path);
-    const collection = cloneDeep(this.core.getCollection(collectionName));
+    const collection = _.cloneDeep(this.core.getCollection(collectionName));
     const { filters, limit, populate, offset = 0 } = options;
 
     let filteredCollection = collection;
