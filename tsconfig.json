@@ -1,20 +1,9 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ES2019",
-    "outDir": "./dist",
-    "declaration": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
+    "module": "ESNext",
+    "outDir": "dist/mjs",
+    "target": "ESNext",
   },
-  "include": ["src"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.test.js"
-  ]
+  "exclude": ["node_modules", "dist", "examples", "docs", "__test__"]
 }
