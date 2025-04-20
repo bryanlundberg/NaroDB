@@ -38,7 +38,8 @@ export default defineConfig({
         items: [
           { text: 'Getting Started', link: '/guides/index.md' },
           { text: 'Express.js', link: '/guides/express.md' },
-          { text: 'Nest.js', link: '/guides/nestjs.md' }
+          { text: 'Nest.js', link: '/guides/nestjs.md' },
+          { text: 'Next.js', link: '/guides/nextjs.md' },
         ],
       },
       {
