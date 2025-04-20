@@ -17,17 +17,27 @@ If the ID does not exist, the method does nothing.
 
 ## Example
 
-```js{9}
+```js{17}
 const db = new Naro("myDatabase");
 
 // Adding a new user
 const user = await db.add("users", { name: "Jane Doe", age: 28 });
-console.log(await db.getAll("users")); 
-// Output: [{ id: "generated-id", name: "Jane Doe", age: 28, createdAt: 1696872345000 }]
+console.log(await db.getAll("users"));
+
+// Output: 
+[{ 
+  name: "Jane Doe", 
+  age: 28, 
+  id: "generated-id",
+  createdAt: 1696872345000,
+  path: "users/generated-id",
+}]
 
 // Deleting the user
 await db.delete(`users/${user.id}`);
-console.log(await db.getAll("users")); 
-// Output: []
+console.log(await db.getAll("users"));
+
+// Output: 
+[]
 ```
 

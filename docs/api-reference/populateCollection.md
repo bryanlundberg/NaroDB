@@ -18,42 +18,54 @@ Populates the specified fields within a collection of documents.
 
 ## Example
 
-```js{7}
+```js{18}
 const db = new Naro("myDatabase");
 
-const profile = await db.add("profiles", { bio: "Engineer", skills: ["JavaScript", "TypeScript"] });
-const user1 = await db.add("users", { name: "Alice", profile: `profiles/${profile.id}` });
-const user2 = await db.add("users", { name: "Bob", profile: `profiles/${profile.id}` });
+const profile = await db.add("profiles", 
+  { bio: "Engineer", 
+  skills: ["JavaScript", "TypeScript"] 
+});
+
+const user1 = await db.add("users", { 
+  name: "Alice", 
+  profile: profile.path
+});
+
+const user2 = await db.add("users", { 
+  name: "Bob", 
+  profile: profile.path
+});
 
 const populatedUsers = await db.populateCollection([user1, user2], ["profile"]);
 console.log(populatedUsers);
-// Output:
-// [
-//   {
-//     id: "generated-id",
-//     createdAt: 1696872345000,
-//     name: "Alice",
-//     profile: {
-//       id: "generated-id",
-//       createdAt: 1696872345000,
-//       bio: "Engineer",
-//       skills: ["JavaScript", "TypeScript"],
-//       path: "profiles/generated-id"
-//     }
-//     path: "users/generated-id"
-//   },
-//   {
-//     id: "generated-id",
-//     createdAt: 1696872345000,
-//     name: "Bob",
-//     profile: {
-//       id: "generated-id",
-//       createdAt: 1696872345000,
-//       bio: "Engineer",
-//       skills: ["JavaScript", "TypeScript"],
-//       path: "profiles/generated-id"
-//     },
-//     path: "users/generated-id"
-//   }
-// ]
+
+Output:
+[
+  {
+    id: "generated-id",
+    createdAt: 1696872345000,
+    name: "Alice",
+    profile: {
+      id: "generated-id",
+      createdAt: 1696872345000,
+      bio: "Engineer",
+      skills: ["JavaScript", "TypeScript"],
+      path: "profiles/generated-id"
+    }
+    path: "users/generated-id"
+  },
+  {
+    id: "generated-id",
+    createdAt: 1696872345000,
+    name: "Bob",
+    profile: {
+      id: "generated-id",
+      createdAt: 1696872345000,
+      bio: "Engineer",
+      skills: ["JavaScript", "TypeScript"],
+      path: "profiles/generated-id"
+    },
+    path: "users/generated-id"
+  }
+]
 ```

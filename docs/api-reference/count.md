@@ -20,6 +20,7 @@ Counts the number of documents in a specified collection.
 const db = new Naro("myDatabase");
 
 const count = await db.count("users");
-console.log(count); // Output: 5 (if there are 5 documents in the "users" collection)
+console.log(count); 
+// Output: 5 (if there are 5 documents in the "users" collection)
 ```
 

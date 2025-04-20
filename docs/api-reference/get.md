@@ -19,9 +19,16 @@ Retrieves a document from the given path.
 ```js{3}
 const db = new Naro("myDatabase");
 
-const user = await db.get("users/123");
+const user = await db.get("users/generated-id");
 console.log(user);
-// Output: { id: "123", createdAt: 1696872345000, name: "John Doe", age: 30 } (if found)
+
+// Output:
+{ 
+  id: "generated-id", 
+  createdAt: 1696872345000,
+  path: "users/generated-id",
+  age: 30 
+}
 ```
 
 

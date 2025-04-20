@@ -18,11 +18,25 @@ Retrieves all documents from a specified collection, optionally applying filters
 
 ## Example
 
-```js
-const users = await db.getAll("users", {
-  filters: [{ field: "age", operator: ">=", value: 18 }],
-  limit: 10
-});
-console.log(users); // Logs up to 10 users aged 18 or older
+```js{1}
+const users = await db.getAll("users");
+console.log(users);
+
+// Output: 
+[
+  { id: "generated-id-1", 
+    name: "John Doe", 
+    age: 30, 
+    createdAt: 1696872345000, 
+    path: "users/generated-id-1" 
+  },
+  { id: "generated-id-2", 
+    name: "Jane Smith", 
+    age: 25, 
+    createdAt: 1696872345000, 
+    path: "users/generated-id-2" 
+  },
+  ...
+]
 ```
 

@@ -19,7 +19,7 @@ Checks if a document exists in the specified collection based on the given path.
 ```js{3}
 const db = new Naro("myDatabase");
 
-const exists = await db.exists("users/123");
+const exists = await db.exists("users/generated-id");
 console.log(exists); // Output: true or false
 ```
 
