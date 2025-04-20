@@ -35,3 +35,6 @@ temp/
 *.swp
 
 CONTRIBUTING.md
+
+fixup.js
+tsconfig.base.json
