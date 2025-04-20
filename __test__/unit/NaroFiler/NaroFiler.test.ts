@@ -12,12 +12,12 @@ test("ensureDirectory", () => {
   expect(existsDir).toBe("dir");
 });
 
-test("writeBinaryFile", async () => {
+test("writeBinaryFile", () => {
   const filePath = `${DIRNAME_MOCK}/${COLLECTION_NAME}/${FILENAME_MOCK}`;
   const data = [USERS_MOCK[3]];
 
   NaroFiler.writeBinaryFile(filePath, data);
-  expect(await NaroFiler.readBinaryFile(filePath)).toEqual(data);
+  expect(NaroFiler.readBinaryFile(filePath)).toEqual(data);
 });
 
 test("readBinaryFile returns decoded data when file exists", () => {
