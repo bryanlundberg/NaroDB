@@ -1,4 +1,4 @@
-import msgpack from "notepack.io";
+import { decode, encode } from "notepack.io";
 import { dir, inspectTree, read, write } from "fs-jetpack";
 
 export class NaroFiler {
@@ -8,11 +8,11 @@ export class NaroFiler {
 
   static readBinaryFile(path: string): any[] {
     const data = read(path, "buffer");
-    return data ? msgpack.decode(data) : [];
+    return data ? decode(data) : [];
   }
 
   static writeBinaryFile(path: string, data: any[]): void {
-    return write(path, msgpack.encode(data));
+    return write(path, encode(data));
   }
 
   static listDirectories(path: string): string[] {
