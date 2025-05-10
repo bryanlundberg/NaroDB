@@ -79,6 +79,34 @@ export class Naro {
   }
 
   /**
+   * Overwrite a document in the specified collection using the provided data.
+   *
+   * @param {string} path - The name of the collection to set the data in.
+   * @param {DocData} data - The data to be set as a document.
+   * @return {Promise<NaroDocument>} A promise that resolves to the newly set document.
+   *
+   * @example
+   * const db = new Naro("myDatabase");
+   *
+   * const updatedUser = await db.set("users", { id: "123", createdAt: Date.now(), name: "Jane Doe", age: 28 });
+   * console.log(updatedUser);
+   * // Output: { id: "123", createdAt: 1696872345000, name: "Jane Doe", age: 28 }
+   */
+  async set(path: string, data: DocData): Promise<NaroDocument> {
+    const { collectionName, collectionId, subCollectionName, subCollectionId } = NaroPath.validate(path);
+    if (!collectionId) throw new Error("Collection ID is required");
+    if (subCollectionName) throw new Error("Sub-collection is not supported in set method");
+    if (subCollectionId) throw new Error("Sub-collection ID is not supported in set method");
+    const collection = this.core.getCollection(collectionName);
+    const source = { path: `${collectionName}/${collectionId}`, createdAt: Date.now(), id: collectionId };
+    const newItem: NaroDocument = Object.assign(data, source);
+    const existingIndex = _.findIndex(collection, (item) => item.id === collectionId);
+    existingIndex !== -1 ? collection[existingIndex] = newItem : collection.push(newItem);
+    this.core.updateCollection(collectionName, collection);
+    return _.cloneDeep(newItem);
+  }
+
+  /**
    * Retrieves all documents from a specified collection, optionally applying filters and limits,
    * and populates specified fields with referenced documents from other collections.
    *

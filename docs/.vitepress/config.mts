@@ -48,6 +48,7 @@ export default defineConfig({
           { text: 'get', link: '/api-reference/get' },
           { text: 'getAll', link: '/api-reference/getAll' },
           { text: 'add', link: '/api-reference/add' },
+          { text: 'set', link: '/api-reference/set' },
           { text: 'update', link: '/api-reference/update' },
           { text: 'delete', link: '/api-reference/delete' },
           { text: 'populate', link: '/api-reference/populate' },

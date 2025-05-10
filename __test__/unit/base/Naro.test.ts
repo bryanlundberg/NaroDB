@@ -304,3 +304,36 @@ test("writeToDisk, should write multiple collections to disk", async () => {
   });
 });
 
+test("set, should set a document in the users collection", async () => {
+  const db = new Naro(dbName);
+  const newDoc = await db.set(`users/999`, { name: "Jane Doe" });
+
+  expect(newDoc.id).toBe("999");
+  expect(newDoc.name).toBe("Jane Doe");
+  expect(newDoc.path).toBe("users/999");
+})
+
+test("set, should overwrite a document in the users collection", async () => {
+  const db = new Naro(dbName);
+  await db.set(`users/999`, { name: "Jane Doe" });
+  await db.set(`users/999`, { name: "John", age: 30 });
+
+  const doc = await db.get(`users/999`);
+
+  expect(doc.id).toBe("999");
+  expect(doc.name).toBe("John");
+  expect(doc.age).toBe(30);
+})
+
+test("set, should throw an error if trying to set a document with an invalid ID", async () => {
+  const db = new Naro(dbName);
+  await expect(async () => await db.set(`users/invalid/id`, { name: "Jane Doe" })).rejects.toThrowError();
+});
+
+test("set, should throw an error if trying to set a document with an invalid ID", async () => {
+  const db = new Naro(dbName);
+  await expect(async () => await db.set(`users/invalid/id/fake`, { name: "Jane Doe" })).rejects.toThrowError();
+});
+
+
+
