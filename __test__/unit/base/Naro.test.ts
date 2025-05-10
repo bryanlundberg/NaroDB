@@ -316,11 +316,13 @@ test("set, should set a document in the users collection", async () => {
 test("set, should overwrite a document in the users collection", async () => {
   const db = new Naro(dbName);
   await db.set(`users/999`, { name: "Jane Doe" });
-  const updatedDoc = await db.set(`users/999`, { name: "John", age: 30 });
+  await db.set(`users/999`, { name: "John", age: 30 });
 
-  expect(updatedDoc.id).toBe("999");
-  expect(updatedDoc.name).toBe("John");
-  expect(updatedDoc.age).toBe(30);
+  const doc = await db.get(`users/999`);
+
+  expect(doc.id).toBe("999");
+  expect(doc.name).toBe("John");
+  expect(doc.age).toBe(30);
 })
 
 test("set, should throw an error if trying to set a document with an invalid ID", async () => {
