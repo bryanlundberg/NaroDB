@@ -98,9 +98,10 @@ export class Naro {
     if (subCollectionName) throw new Error("Sub-collection is not supported in set method");
     if (subCollectionId) throw new Error("Sub-collection ID is not supported in set method");
     const collection = this.core.getCollection(collectionName);
-    const source = { path: `${collectionName}/${collectionId}`, createdAt: Date.now(), id: collectionId};
+    const source = { path: `${collectionName}/${collectionId}`, createdAt: Date.now(), id: collectionId };
     const newItem: NaroDocument = Object.assign(data, source);
-    collection.push(newItem);
+    const existingIndex = _.findIndex(collection, (item) => item.id === collectionId);
+    existingIndex !== -1 ? collection[existingIndex] = newItem : collection.push(newItem);
     this.core.updateCollection(collectionName, collection);
     return _.cloneDeep(newItem);
   }
