@@ -349,5 +349,17 @@ test("clear, should throw an error if has collection identifier", async () => {
   await expect(async () => await db.clear("users/123")).rejects.toThrowError();
 })
 
+test("getStructuredCollections, should return the structured collections", async () => {
+  const db = new Naro(dbName);
+  await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+  await db.add("products", { name: faker.commerce.productName(), price: faker.commerce.price() });
+  const collections = db.getStructuredCollections();
+
+  expect(collections).toEqual({
+    users: expect.any(Array),
+    products: expect.any(Array)
+  });
+})
+
 
 
