@@ -99,3 +99,17 @@ test("writeCollection overwrites existing data in the collection", () => {
   const writtenData = NaroFiler.readBinaryFile(filePath);
   expect(writtenData).toEqual(updatedData);
 });
+
+test("removeCollection removes the collection directory", () => {
+  const core = new Core(DIRNAME_MOCK);
+  const collectionName = "testCollection";
+  const data = [...USERS_MOCK];
+
+  core.updateCollection(collectionName, data);
+  core.writeCollection(collectionName);
+
+  core.removeCollection(collectionName);
+
+  const filePath = `${DIRNAME_MOCK}/${collectionName}`;
+  expect(NaroFiler.listDirectories(DIRNAME_MOCK)).not.toContain(filePath);
+});
