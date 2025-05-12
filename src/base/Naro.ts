@@ -426,6 +426,18 @@ export class Naro {
     if (collectionId) throw new Error("Collection ID detected. Use delete method instead.");
     this.core.removeCollection(collectionName);
   }
+
+  /**
+   * Retrieves all collections in the database as a structured object.
+   * Each key in the returned object represents a collection name,
+   * and the value is an array of documents within that collection.
+   *
+   * @return {Record<string, NaroDocument[]>} An object containing all collections
+   * and their respective documents.
+   */
+  getStructuredCollections(): Record<string, NaroDocument[]> {
+    return this.core.getStructuredCollections();
+  }
 }
 
 
