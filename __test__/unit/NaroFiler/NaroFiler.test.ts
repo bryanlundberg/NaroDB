@@ -42,3 +42,11 @@ test("listDirectories", async () => {
   const result = NaroFiler.listDirectories(DIRNAME_MOCK);
   expect(result).toEqual(["subdir1", "subdir2"]);
 });
+
+test("removeDirectory", async () => {
+  const subDir = `${DIRNAME_MOCK}/subdir`;
+  await dirAsync(subDir);
+  NaroFiler.removeDirectory(subDir);
+  const existsDir = exists(subDir);
+  expect(existsDir).toBe(false);
+});
