@@ -408,6 +408,24 @@ export class Naro {
     const collection = this.core.getCollection(collectionName);
     return collection.length;
   }
+
+  /**
+   * Deletes all documents in a specified collection.
+   *
+   * @param {string} path - The name of the collection to clear.
+   * @return {Promise<void>} A promise that resolves when the collection is cleared.
+   *
+   * @example
+   * const db = new Naro("myDatabase");
+   *
+   * await db.clear("users");
+   * console.log(await db.getAll("users")); // Output: []
+   */
+  async clear(path: string): Promise<void> {
+    const { collectionName, collectionId } = NaroPath.validate(path);
+    if (collectionId) throw new Error("Collection ID detected. Use delete method instead.");
+    this.core.removeCollection(collectionName);
+  }
 }
 
 
