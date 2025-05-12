@@ -53,4 +53,10 @@ export class Core {
     const dataPath = `${collectionPath}/${this.logFileName}`;
     NaroFiler.writeBinaryFile(dataPath, this.collections[path]);
   }
+
+  removeCollection(path: string): void {
+    const collectionPath = `${this.rootPath}/${path}`;
+    NaroFiler.removeDirectory(collectionPath);
+    delete this.collections[path];
+  }
 }

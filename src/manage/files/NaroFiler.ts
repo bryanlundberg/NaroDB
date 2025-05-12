@@ -1,5 +1,5 @@
 import { decode, encode } from "notepack.io";
-import { dir, inspectTree, read, write } from "fs-jetpack";
+import { dir, inspectTree, read, write, remove } from "fs-jetpack";
 
 export class NaroFiler {
   static ensureDirectory(path: string): void {
@@ -19,5 +19,9 @@ export class NaroFiler {
     const directory = inspectTree(path);
     if (!directory) return [];
     return directory.children.filter((child) => child.type === "dir").map((child) => child.name);
+  }
+
+  static removeDirectory(path: string): void {
+    return remove(path);
   }
 }

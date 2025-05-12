@@ -335,5 +335,19 @@ test("set, should throw an error if trying to set a document with an invalid ID"
   await expect(async () => await db.set(`users/invalid/id/fake`, { name: "Jane Doe" })).rejects.toThrowError();
 });
 
+test("clear, should clear all documents in the users collection", async () => {
+  const db = new Naro(dbName);
+  await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+  await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+  await db.clear("users");
+  const users = await db.getAll("users");
+  expect(users).toHaveLength(0);
+})
+
+test("clear, should throw an error if has collection identifier", async () => {
+  const db = new Naro(dbName);
+  await expect(async () => await db.clear("users/123")).rejects.toThrowError();
+})
+
 
 
