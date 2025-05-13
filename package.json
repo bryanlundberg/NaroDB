@@ -43,6 +43,7 @@
     "fs-jetpack": "^5.1.0",
     "lodash": "^4.17.21",
     "notepack.io": "^3.0.1",
+    "redaxios": "^0.5.1",
     "typescript": "^5.8.2"
   },
   "devDependencies": {
