@@ -176,6 +176,8 @@ export class Naro {
    */
   async getAll(path: string, options: Options = {}): Promise<NaroDocument[]> {
     const { collectionName } = NaroPath.validate(path);
+    if (this.host) return await this.serverRequest("getAll", [path, options]);
+
     const collection = _.cloneDeep(this.core.getCollection(collectionName));
     const { filters, limit, populate, offset = 0 } = options;
 
