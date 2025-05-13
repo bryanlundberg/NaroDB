@@ -386,6 +386,8 @@ export class Naro {
    */
   async update(path: string, data: any): Promise<NaroDocument> {
     const { collectionName, collectionId } = NaroPath.validate(path);
+    if (!collectionId) throw new Error("Collection ID is required");
+    if (this.host) return await this.serverRequest("update", [path, data]);
     const collection = this.core.getCollection(collectionName);
     const itemIndex = _.findIndex(collection, (item: any) => item.id === collectionId);
     if (itemIndex === -1) throw new Error("Item not found");
