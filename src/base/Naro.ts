@@ -5,6 +5,7 @@ import { NaroId } from "../utils/IdGenerator";
 import { NaroDocument } from "../types/NaroDocument.interface";
 import { Options } from "../types/Options.interface";
 import { Query } from "../types/Query.interface";
+import axios from "redaxios";
 
 /**
  * The Naro class provides methods to manage and manipulate collections
@@ -17,10 +18,22 @@ import { Query } from "../types/Query.interface";
  * const db = new Naro(process.env.NODE_ENV === "production" ? "prod-database-name" : "dev-database-name");
  */
 export class Naro {
-  private readonly dbName: string;
-  private readonly core: Core;
+  private readonly dbName!: string;
+  private readonly core!: Core;
+  private readonly host!: string;
+  private readonly applicationId!: string;
+  private readonly projectId!: string;
 
-  constructor(dbName: string) {
+  constructor(dbName: string, options?: { URI?: string }) {
+    if (options?.URI) {
+      const [baseUrl, projectId, applicationId] = options.URI.split(';');
+      this.host = baseUrl;
+      this.applicationId = applicationId;
+      this.projectId = projectId;
+      if (!this.host || !this.applicationId || !this.projectId) throw new Error("Invalid URI format.");
+      return;
+    }
+
     if (dbName.includes('/')) throw new Error("dbName cannot contain '/'");
     this.dbName = dbName;
     const rootPath = `${process.cwd()}/data/${this.dbName}`;
@@ -68,6 +81,7 @@ export class Naro {
    * // Output: { id: "generated-id", createdAt: 1696872345000, name: "John Doe", age: 30 }
    */
   async add(path: string, data: DocData): Promise<NaroDocument> {
+    if (this.host) return await this.serverRequest("add", [path, data]);
     const { collectionName } = NaroPath.validate(path);
     const collection = this.core.getCollection(collectionName);
     const id = NaroId.generate();
@@ -76,6 +90,38 @@ export class Naro {
     collection.push(newItem);
     this.core.updateCollection(collectionName, collection);
     return _.cloneDeep(newItem);
+  }
+
+  /**
+   * Sends a request to the server using the specified method and parameters.
+   *
+   * @param {string} method - The name of the method to be invoked on the server.
+   * @param {any[]} params - The parameters to be sent with the request.
+   * @return {Promise<any>} A promise that resolves to the response data from the server.
+   *
+   * @throws {Error} If the request fails, an error will be thrown by `axios.post`.
+   *
+   * @example
+   * // Example usage:
+   * const response = await this.serverRequest("add", ["users", { name: "John Doe", age: 30 }]);
+   * console.log(response);
+   * // Output: { success: true, result: {
+   * //   name: 'John Doe',
+   * //   age: 30,
+   * //   id: 'mamhun2et7dhc03xx',
+   * //   createdAt: 1747139672390,
+   * //   path: 'users/mamhun2et7dhc03xx'
+   * // } }
+   */
+  private async serverRequest(method: string, params: any[]): Promise<any> {
+    const response = await axios.post(this.host, {
+      applicationId: this.applicationId,
+      projectId: this.projectId,
+      method,
+      params
+    });
+
+    return response.data;
   }
 
   /**
