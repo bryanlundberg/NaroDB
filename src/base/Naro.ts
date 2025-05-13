@@ -21,16 +21,16 @@ export class Naro {
   private readonly dbName!: string;
   private readonly core!: Core;
   private readonly host!: string;
-  private readonly applicationId!: string;
+  private readonly orgId!: string;
   private readonly projectId!: string;
 
   constructor(dbName: string, options?: { URI?: string }) {
     if (options?.URI) {
-      const [baseUrl, projectId, applicationId] = options.URI.split(';');
+      const [baseUrl, orgId, projectId] = options.URI.split(';');
       this.host = baseUrl;
-      this.applicationId = applicationId;
+      this.orgId = orgId;
       this.projectId = projectId;
-      if (!this.host || !this.applicationId || !this.projectId) throw new Error("Invalid URI format.");
+      if (!this.host || !this.orgId || !this.projectId) throw new Error("Invalid URI format.");
       return;
     }
 
@@ -81,8 +81,8 @@ export class Naro {
    * // Output: { id: "generated-id", createdAt: 1696872345000, name: "John Doe", age: 30 }
    */
   async add(path: string, data: DocData): Promise<NaroDocument> {
-    if (this.host) return await this.serverRequest("add", [path, data]);
     const { collectionName } = NaroPath.validate(path);
+    if (this.host) return await this.serverRequest("add", [path, data]);
     const collection = this.core.getCollection(collectionName);
     const id = NaroId.generate();
     const source = { id, createdAt: Date.now(), path: `${collectionName}/${id}` };
@@ -115,7 +115,7 @@ export class Naro {
    */
   private async serverRequest(method: string, params: any[]): Promise<any> {
     const response = await axios.post(this.host, {
-      applicationId: this.applicationId,
+      orgId: this.orgId,
       projectId: this.projectId,
       method,
       params
@@ -143,6 +143,7 @@ export class Naro {
     if (!collectionId) throw new Error("Collection ID is required");
     if (subCollectionName) throw new Error("Sub-collection is not supported in set method");
     if (subCollectionId) throw new Error("Sub-collection ID is not supported in set method");
+    if (this.host) return await this.serverRequest("set", [path, data]);
     const collection = this.core.getCollection(collectionName);
     const source = { path: `${collectionName}/${collectionId}`, createdAt: Date.now(), id: collectionId };
     const newItem: NaroDocument = Object.assign(data, source);
