@@ -460,6 +460,7 @@ export class Naro {
    */
   async count(path: string): Promise<number> {
     const { collectionName } = NaroPath.validate(path);
+    if (this.host) return await this.serverRequest("count", [path]);
     const collection = this.core.getCollection(collectionName);
     return collection.length;
   }
