@@ -256,6 +256,7 @@ export class Naro {
   async populate(doc: NaroDocument, populateFields: string[] | undefined): Promise<NaroDocument> {
     if (!populateFields) return doc;
     if (!populateFields.length) throw new Error("Populate fields cannot be an empty array");
+    if (this.host) return await this.serverRequest("populate", [doc, populateFields]);
 
     await Promise.all(populateFields.map(async (field) => {
       const refPath = doc[field];
