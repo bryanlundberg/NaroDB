@@ -416,6 +416,8 @@ export class Naro {
    */
   async delete(path: string): Promise<void> {
     const { collectionName, collectionId } = NaroPath.validate(path);
+    if (!collectionId) throw new Error("Collection ID is required");
+    if (this.host) return await this.serverRequest("delete", [path]);
     const collection = this.core.getCollection(collectionName);
     const itemIndex = _.findIndex(collection, (item: any) => item.id === collectionId);
     if (itemIndex === -1 || !collection[itemIndex]) return;
