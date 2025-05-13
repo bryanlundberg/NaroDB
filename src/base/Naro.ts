@@ -177,7 +177,6 @@ export class Naro {
   async getAll(path: string, options: Options = {}): Promise<NaroDocument[]> {
     const { collectionName } = NaroPath.validate(path);
     if (this.host) return await this.serverRequest("getAll", [path, options]);
-
     const collection = _.cloneDeep(this.core.getCollection(collectionName));
     const { filters, limit, populate, offset = 0 } = options;
 
@@ -319,7 +318,6 @@ export class Naro {
    */
   async populateCollection(docs: NaroDocument[], populateFields: string[] | undefined): Promise<NaroDocument[]> {
     if (!populateFields || populateFields.length === 0) return docs;
-
     return Promise.all(docs.map(doc => this.populate(doc, populateFields)));
   }
 
@@ -366,6 +364,7 @@ export class Naro {
    */
   async get(path: string): Promise<NaroDocument | undefined> {
     const { collectionName, collectionId } = NaroPath.validate(path);
+    if (this.host) return await this.serverRequest("get", [path]);
     const collection = this.core.getCollection(collectionName);
     return _.find(collection, (item: any) => item.id === collectionId) || undefined;
   }
