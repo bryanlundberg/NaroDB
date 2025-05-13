@@ -484,7 +484,8 @@ export class Naro {
    * @return {Record<string, NaroDocument[]>} An object containing all collections
    * and their respective documents.
    */
-  getStructuredCollections(): Record<string, NaroDocument[]> {
+  async getStructuredCollections(): Promise<Record<string, NaroDocument[]>> {
+    if (this.host) return this.serverRequest("getStructuredCollections", []);
     return this.core.getStructuredCollections();
   }
 }
