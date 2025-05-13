@@ -480,6 +480,7 @@ export class Naro {
   async clear(path: string): Promise<void> {
     const { collectionName, collectionId } = NaroPath.validate(path);
     if (collectionId) throw new Error("Collection ID detected. Use delete method instead.");
+    if (this.host) return await this.serverRequest("clear", [path]);
     this.core.removeCollection(collectionName);
   }
 
