@@ -440,6 +440,8 @@ export class Naro {
    */
   async exists(path: string): Promise<boolean> {
     const { collectionName, collectionId } = NaroPath.validate(path);
+    if (!collectionId) throw new Error("Collection ID is required");
+    if (this.host) return await this.serverRequest("exists", [path]);
     const collection = this.core.getCollection(collectionName);
     return _.some(collection, (item: any) => item.id === collectionId);
   }
