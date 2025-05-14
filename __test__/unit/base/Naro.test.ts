@@ -353,7 +353,7 @@ test("getStructuredCollections, should return the structured collections", async
   const db = new Naro(dbName);
   await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
   await db.add("products", { name: faker.commerce.productName(), price: faker.commerce.price() });
-  const collections = db.getStructuredCollections();
+  const collections = await db.getStructuredCollections();
 
   expect(collections).toEqual({
     users: expect.any(Array),

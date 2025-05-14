@@ -5,6 +5,7 @@ import { NaroId } from "../utils/IdGenerator";
 import { NaroDocument } from "../types/NaroDocument.interface";
 import { Options } from "../types/Options.interface";
 import { Query } from "../types/Query.interface";
+import axios from "redaxios";
 
 /**
  * The Naro class provides methods to manage and manipulate collections
@@ -17,10 +18,22 @@ import { Query } from "../types/Query.interface";
  * const db = new Naro(process.env.NODE_ENV === "production" ? "prod-database-name" : "dev-database-name");
  */
 export class Naro {
-  private readonly dbName: string;
-  private readonly core: Core;
+  private readonly dbName!: string;
+  private readonly core!: Core;
+  private readonly host!: string;
+  private readonly orgId!: string;
+  private readonly projectId!: string;
 
-  constructor(dbName: string) {
+  constructor(dbName: string, options?: { URI?: string }) {
+    if (options?.URI) {
+      const [baseUrl, orgId, projectId] = options.URI.split(';');
+      this.host = baseUrl;
+      this.orgId = orgId;
+      this.projectId = projectId;
+      if (!this.host || !this.orgId || !this.projectId) throw new Error("Invalid URI format.");
+      return;
+    }
+
     if (dbName.includes('/')) throw new Error("dbName cannot contain '/'");
     this.dbName = dbName;
     const rootPath = `${process.cwd()}/data/${this.dbName}`;
@@ -69,6 +82,7 @@ export class Naro {
    */
   async add(path: string, data: DocData): Promise<NaroDocument> {
     const { collectionName } = NaroPath.validate(path);
+    if (this.host) return await this.serverRequest("add", [path, data]);
     const collection = this.core.getCollection(collectionName);
     const id = NaroId.generate();
     const source = { id, createdAt: Date.now(), path: `${collectionName}/${id}` };
@@ -76,6 +90,38 @@ export class Naro {
     collection.push(newItem);
     this.core.updateCollection(collectionName, collection);
     return _.cloneDeep(newItem);
+  }
+
+  /**
+   * Sends a request to the server using the specified method and parameters.
+   *
+   * @param {string} method - The name of the method to be invoked on the server.
+   * @param {any[]} params - The parameters to be sent with the request.
+   * @return {Promise<any>} A promise that resolves to the response data from the server.
+   *
+   * @throws {Error} If the request fails, an error will be thrown by `axios.post`.
+   *
+   * @example
+   * // Example usage:
+   * const response = await this.serverRequest("add", ["users", { name: "John Doe", age: 30 }]);
+   * console.log(response);
+   * // Output: { success: true, result: {
+   * //   name: 'John Doe',
+   * //   age: 30,
+   * //   id: 'mamhun2et7dhc03xx',
+   * //   createdAt: 1747139672390,
+   * //   path: 'users/mamhun2et7dhc03xx'
+   * // } }
+   */
+  private async serverRequest(method: string, params: any[]): Promise<any> {
+    const response = await axios.post(this.host, {
+      orgId: this.orgId,
+      projectId: this.projectId,
+      method,
+      params
+    });
+
+    return response.data;
   }
 
   /**
@@ -97,6 +143,7 @@ export class Naro {
     if (!collectionId) throw new Error("Collection ID is required");
     if (subCollectionName) throw new Error("Sub-collection is not supported in set method");
     if (subCollectionId) throw new Error("Sub-collection ID is not supported in set method");
+    if (this.host) return await this.serverRequest("set", [path, data]);
     const collection = this.core.getCollection(collectionName);
     const source = { path: `${collectionName}/${collectionId}`, createdAt: Date.now(), id: collectionId };
     const newItem: NaroDocument = Object.assign(data, source);
@@ -129,6 +176,7 @@ export class Naro {
    */
   async getAll(path: string, options: Options = {}): Promise<NaroDocument[]> {
     const { collectionName } = NaroPath.validate(path);
+    if (this.host) return await this.serverRequest("getAll", [path, options]);
     const collection = _.cloneDeep(this.core.getCollection(collectionName));
     const { filters, limit, populate, offset = 0 } = options;
 
@@ -207,6 +255,7 @@ export class Naro {
   async populate(doc: NaroDocument, populateFields: string[] | undefined): Promise<NaroDocument> {
     if (!populateFields) return doc;
     if (!populateFields.length) throw new Error("Populate fields cannot be an empty array");
+    if (this.host) return await this.serverRequest("populate", [doc, populateFields]);
 
     await Promise.all(populateFields.map(async (field) => {
       const refPath = doc[field];
@@ -269,7 +318,6 @@ export class Naro {
    */
   async populateCollection(docs: NaroDocument[], populateFields: string[] | undefined): Promise<NaroDocument[]> {
     if (!populateFields || populateFields.length === 0) return docs;
-
     return Promise.all(docs.map(doc => this.populate(doc, populateFields)));
   }
 
@@ -316,6 +364,7 @@ export class Naro {
    */
   async get(path: string): Promise<NaroDocument | undefined> {
     const { collectionName, collectionId } = NaroPath.validate(path);
+    if (this.host) return await this.serverRequest("get", [path]);
     const collection = this.core.getCollection(collectionName);
     return _.find(collection, (item: any) => item.id === collectionId) || undefined;
   }
@@ -337,6 +386,8 @@ export class Naro {
    */
   async update(path: string, data: any): Promise<NaroDocument> {
     const { collectionName, collectionId } = NaroPath.validate(path);
+    if (!collectionId) throw new Error("Collection ID is required");
+    if (this.host) return await this.serverRequest("update", [path, data]);
     const collection = this.core.getCollection(collectionName);
     const itemIndex = _.findIndex(collection, (item: any) => item.id === collectionId);
     if (itemIndex === -1) throw new Error("Item not found");
@@ -365,6 +416,8 @@ export class Naro {
    */
   async delete(path: string): Promise<void> {
     const { collectionName, collectionId } = NaroPath.validate(path);
+    if (!collectionId) throw new Error("Collection ID is required");
+    if (this.host) return await this.serverRequest("delete", [path]);
     const collection = this.core.getCollection(collectionName);
     const itemIndex = _.findIndex(collection, (item: any) => item.id === collectionId);
     if (itemIndex === -1 || !collection[itemIndex]) return;
@@ -387,6 +440,8 @@ export class Naro {
    */
   async exists(path: string): Promise<boolean> {
     const { collectionName, collectionId } = NaroPath.validate(path);
+    if (!collectionId) throw new Error("Collection ID is required");
+    if (this.host) return await this.serverRequest("exists", [path]);
     const collection = this.core.getCollection(collectionName);
     return _.some(collection, (item: any) => item.id === collectionId);
   }
@@ -405,6 +460,7 @@ export class Naro {
    */
   async count(path: string): Promise<number> {
     const { collectionName } = NaroPath.validate(path);
+    if (this.host) return await this.serverRequest("count", [path]);
     const collection = this.core.getCollection(collectionName);
     return collection.length;
   }
@@ -424,6 +480,7 @@ export class Naro {
   async clear(path: string): Promise<void> {
     const { collectionName, collectionId } = NaroPath.validate(path);
     if (collectionId) throw new Error("Collection ID detected. Use delete method instead.");
+    if (this.host) return await this.serverRequest("clear", [path]);
     this.core.removeCollection(collectionName);
   }
 
@@ -435,7 +492,8 @@ export class Naro {
    * @return {Record<string, NaroDocument[]>} An object containing all collections
    * and their respective documents.
    */
-  getStructuredCollections(): Record<string, NaroDocument[]> {
+  async getStructuredCollections(): Promise<Record<string, NaroDocument[]>> {
+    if (this.host) return this.serverRequest("getStructuredCollections", []);
     return this.core.getStructuredCollections();
   }
 }
