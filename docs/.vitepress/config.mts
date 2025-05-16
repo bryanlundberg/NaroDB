@@ -55,6 +55,9 @@ export default defineConfig({
           { text: 'populateCollection', link: '/api-reference/populateCollection' },
           { text: 'count', link: '/api-reference/count' },
           { text: 'exists', link: '/api-reference/exists' },
+          { text: 'clear', link: '/api-reference/clear' },
+          { text: 'getStructuredCollections', link: '/api-reference/getStructuredCollections' },
+          { text: 'writeToDisk', link: '/api-reference/writeToDisk' },
         ]
       },
       {
