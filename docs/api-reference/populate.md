@@ -18,9 +18,7 @@ Populates the specified fields of a document with their corresponding referenced
 
 ## Example
 
-```js{13}
-const db = new Naro("myDatabase");
-
+```js{11}
 const profile = await db.add("profiles", { 
   bio: "Software Developer", 
   skills: ["TypeScript", "Node.js"] 
