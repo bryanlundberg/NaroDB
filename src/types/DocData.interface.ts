@@ -1,3 +1,3 @@
-interface DocData {
+export interface DocData {
   [key: string]: unknown;
 }

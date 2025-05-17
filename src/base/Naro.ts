@@ -6,6 +6,7 @@ import { NaroDocument } from "../types/NaroDocument.interface";
 import { Options } from "../types/Options.interface";
 import { Query } from "../types/Query.interface";
 import axios from "redaxios";
+import { DocData } from "../types/DocData.interface";
 
 /**
  * The Naro class provides methods to manage and manipulate collections
