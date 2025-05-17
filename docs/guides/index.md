@@ -5,14 +5,13 @@ NaroDB is specifically designed for JavaScript and TypeScript backend applicatio
 - [Express.js Integration Guide](./express.md) - Learn how to use NaroDB with Express.js for RESTful APIs
 - [Nest.js Integration Guide](./nestjs.md) - Integrate NaroDB with Nest.js for enterprise applications
 - [Next.js Integration Guide](./nextjs.md) - Use NaroDB with Next.js for server-side rendering
-- [URI Service Guide](./uri-service.md) - Learn how to use NaroDB with a remote service using URI
 
 ## Coming Soon
 
 We're working on integration guides for additional frameworks:
 
-- Koa.js
 - Fastify
-- Hapi.js
+- TanStack
+- Elysia
 
 If you'd like to contribute a guide for your favorite framework, please submit a pull request to our GitHub repository.
