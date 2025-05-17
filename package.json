@@ -1,12 +1,14 @@
 {
   "name": "@narodb/naro",
   "source": "src/index.ts",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.modern.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.modern.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     "require": "./dist/index.js",
-    "default": "./dist/index.modern.mjs"
+    "import": "./dist/index.modern.mjs",
+    "default": "./dist/index.modern.mjs",
+    "types": "./dist/index.d.ts"
   },
   "version": "0.2.3",
   "description": "A simple, fast, and lightweight NoSQL database",
