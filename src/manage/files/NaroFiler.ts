@@ -1,27 +1,27 @@
 import { decode, encode } from "notepack.io";
-import { dir, inspectTree, read, write, remove } from "fs-jetpack";
+import jetpack from "fs-jetpack";
 
 export class NaroFiler {
   static ensureDirectory(path: string): void {
-    dir(path);
+    jetpack.dir(path);
   }
 
   static readBinaryFile(path: string): any[] {
-    const data = read(path, "buffer");
+    const data = jetpack.read(path, "buffer");
     return data ? decode(data) : [];
   }
 
   static writeBinaryFile(path: string, data: any[]): void {
-    return write(path, encode(data));
+    return jetpack.write(path, encode(data));
   }
 
   static listDirectories(path: string): string[] {
-    const directory = inspectTree(path);
+    const directory = jetpack.inspectTree(path);
     if (!directory) return [];
     return directory.children.filter((child) => child.type === "dir").map((child) => child.name);
   }
 
   static removeDirectory(path: string): void {
-    return remove(path);
+    return jetpack.remove(path);
   }
 }
