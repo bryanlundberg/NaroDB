@@ -16,9 +16,7 @@ Retrieves a document from the given path.
 
 ## Example
 
-```js{3}
-const db = new Naro("myDatabase");
-
+```js
 const user = await db.get("users/generated-id");
 console.log(user);
 
