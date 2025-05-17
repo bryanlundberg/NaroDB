@@ -17,10 +17,7 @@ If the ID does not exist, the method does nothing.
 
 ## Example
 
-```js{17}
-const db = new Naro("myDatabase");
-
-// Adding a new user
+```js{14}
 const user = await db.add("users", { name: "Jane Doe", age: 28 });
 console.log(await db.getAll("users"));
 
