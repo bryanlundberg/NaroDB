@@ -1,10 +1,13 @@
 {
   "name": "@narodb/naro",
   "source": "src/index.ts",
-  "main": "dist/naro.js",
-  "umd:main": "dist/naro.umd.js",
-  "module": "dist/naro.module.js",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.modern.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    "require": "./dist/index.cjs",
+    "default": "./dist/index.modern.mjs"
+  },
   "version": "0.2.1",
   "description": "A simple, fast, and lightweight NoSQL database",
   "keywords": [
@@ -28,7 +31,7 @@
     "dev:bun": "bun ./src/index.ts",
     "dev:node": "npx tsx ./src/index.ts",
     "test": "vitest",
-    "build": "rimraf dist && microbundle && tsc --emitDeclarationOnly --declaration --outDir dist",
+    "build": "rimraf dist && microbundle ",
     "pack": "npm pack",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
