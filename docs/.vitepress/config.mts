@@ -40,6 +40,7 @@ export default defineConfig({
           { text: 'Express.js', link: '/guides/express.md' },
           { text: 'Nest.js', link: '/guides/nestjs.md' },
           { text: 'Next.js', link: '/guides/nextjs.md' },
+          { text: 'Remote URI', link: '/guides/uri-service.md' },
         ],
       },
       {
