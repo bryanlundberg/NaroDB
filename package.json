@@ -1,14 +1,10 @@
 {
   "name": "@narodb/naro",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/mjs/index.js",
-  "exports": {
-    ".": {
-      "import": "./dist/mjs/index.js",
-      "require": "./dist/cjs/index.js"
-    }
-  },
-  "types": "./dist/types/index.d.ts",
+  "source": "src/index.ts",
+  "main": "dist/naro.js",
+  "umd:main": "dist/naro.umd.js",
+  "module": "dist/naro.module.js",
+  "types": "dist/index.d.ts",
   "version": "0.1.0",
   "description": "A simple, fast, and lightweight NoSQL database",
   "keywords": [
@@ -32,7 +28,7 @@
     "dev:bun": "bun ./src/index.ts",
     "dev:node": "npx tsx ./src/index.ts",
     "test": "vitest",
-    "build": "rimraf dist && tsc -p tsconfig.json && tsc -p tsconfig.cjs.json && node ./fixup.js",
+    "build": "rimraf dist && microbundle && tsc --emitDeclarationOnly --declaration --outDir dist",
     "pack": "npm pack",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -50,6 +46,7 @@
     "@faker-js/faker": "^9.6.0",
     "@types/lodash": "^4.17.16",
     "@vitest/coverage-v8": "^3.1.1",
+    "microbundle": "^0.15.1",
     "rimraf": "^6.0.1",
     "typedoc": "^0.28.2",
     "vitepress": "^1.6.3",
