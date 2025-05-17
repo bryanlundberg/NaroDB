@@ -17,8 +17,6 @@ Deletes all documents in a specified collection.
 ## Example
 
 ```js
-const db = new Naro("myDatabase");
-
 await db.clear("users");
 console.log(await db.getAll("users")); // Output: []
 ```
