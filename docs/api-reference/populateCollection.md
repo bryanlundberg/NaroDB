@@ -18,9 +18,7 @@ Populates the specified fields within a collection of documents.
 
 ## Example
 
-```js{18}
-const db = new Naro("myDatabase");
-
+```js{16}
 const profile = await db.add("profiles", 
   { bio: "Engineer", 
   skills: ["JavaScript", "TypeScript"] 
