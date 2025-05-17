@@ -18,7 +18,7 @@ Retrieves all documents from a specified collection, optionally applying filters
 
 ## Example
 
-```js{1}
+```js
 const users = await db.getAll("users");
 console.log(users);
 
