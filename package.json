@@ -5,7 +5,7 @@
   "module": "dist/index.modern.mjs",
   "types": "dist/index.d.ts",
   "exports": {
-    "require": "./dist/index.cjs",
+    "require": "./dist/index.js",
     "default": "./dist/index.modern.mjs"
   },
   "version": "0.2.2",
@@ -31,7 +31,7 @@
     "dev:bun": "bun ./src/index.ts",
     "dev:node": "npx tsx ./src/index.ts",
     "test": "vitest",
-    "build": "rimraf dist && microbundle ",
+    "build": "rimraf dist && microbundle --tsconfig tsconfig.json --generateTypes",
     "pack": "npm pack",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
