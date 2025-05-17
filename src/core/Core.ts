@@ -1,6 +1,6 @@
 import { NaroFiler } from "../manage/files/NaroFiler";
 import jetpack from "fs-jetpack";
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 export class Core {
   private readonly rootPath: string;
