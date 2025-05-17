@@ -17,9 +17,7 @@ Adds a new document to the specified collection.
 
 ## Example
 
-```js{3}
-const db = new Naro("myDatabase");
-
+```js
 const newUser = await db.add("users", { name: "John Doe", age: 30 });
 console.log(newUser);
 
