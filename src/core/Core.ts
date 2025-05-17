@@ -1,6 +1,6 @@
 import { NaroFiler } from "../manage/files/NaroFiler";
-import { file } from "fs-jetpack";
-import { cloneDeep } from "lodash";
+import jetpack from "fs-jetpack";
+import * as _ from 'lodash';
 
 export class Core {
   private readonly rootPath: string;
@@ -25,7 +25,7 @@ export class Core {
     for (const folderName of directories) {
       const folderPath = `${this.rootPath}/${folderName}`;
       const dataPath = `${folderPath}/${this.logFileName}`;
-      file(dataPath);
+      jetpack.file(dataPath);
       this.collections[folderName] = NaroFiler.readBinaryFile(dataPath);
     }
     return this.collections;
@@ -37,7 +37,7 @@ export class Core {
   }
 
   updateCollection(name: string, data: any[]): void {
-    this.collections[name] = cloneDeep(data);
+    this.collections[name] = _.cloneDeep(data);
   }
 
   writeCollections(): void {
