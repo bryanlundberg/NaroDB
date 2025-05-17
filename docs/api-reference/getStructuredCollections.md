@@ -14,9 +14,7 @@ This method does not take any parameters.
 
 ## Example
 
-```js
-const db = new Naro("myDatabase");
-
+```js{6}
 // Add some documents to different collections
 await db.add("users", { name: "John Doe", age: 30 });
 await db.add("users", { name: "Jane Doe", age: 28 });
