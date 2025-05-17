@@ -21,7 +21,7 @@ Overwrite a document in the specified collection using the provided data.
 
 ## Example
 
-```js{17}
+```js
 const newDoc = await db.set("users", { 
   id: "123",
   name: "Jane Doe", age: 28 
