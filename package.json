@@ -8,7 +8,7 @@
     "require": "./dist/index.cjs",
     "default": "./dist/index.modern.mjs"
   },
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A simple, fast, and lightweight NoSQL database",
   "keywords": [
     "database",
