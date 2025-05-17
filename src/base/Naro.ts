@@ -1,12 +1,9 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { Core } from "../core/Core";
 import { NaroPath } from "../manage/paths/NaroPath";
 import { NaroId } from "../utils/IdGenerator";
-import { NaroDocument } from "../types/NaroDocument.interface";
-import { Options } from "../types/Options.interface";
-import { Query } from "../types/Query.interface";
+import { NaroDocument, Options, Query, DocData } from "../types";
 import axios from "redaxios";
-import { DocData } from "../types/DocData.interface";
 
 /**
  * The Naro class provides methods to manage and manipulate collections
@@ -498,7 +495,3 @@ export class Naro {
     return this.core.getStructuredCollections();
   }
 }
-
-
-
-
