@@ -18,28 +18,38 @@ npm install @narodb/naro
 
 Here's how to integrate NaroDB with Next.js:
 
+### Database Configuration
+
 ::: code-group
-```js [src/app/api/users/route.js]
 
+```ts [ESM]
+// src/db/db.js
 import { Naro } from "@narodb/naro";
-import { NextResponse } from "next/server";
+const db = new Naro("nextjsDatabase");
+export default db;
+```
+:::
 
-const naro = new Naro("nextjsDatabase");
+### Next.js server setup  (App Router)
+
+::: code-group
+```js{1,6,15} [src/app/api/users/route.js]
+import db from "@/db";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const data = await naro.getAll("users");
+    const data = await db.getAll("users");
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-export async function POST(request) {
+export async function POST() {
   try {
-    const body = await request.json();
-    const newData = await naro.add("user", body);
-    return NextResponse.json(newData, { status: 201 });
+    const newDoc = await db.add("user", { name: "John Doe", age: 30, });
+    return NextResponse.json(newData);
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
