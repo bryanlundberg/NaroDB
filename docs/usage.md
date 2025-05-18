@@ -4,17 +4,38 @@ Designed to be simple and easy to use. Below are some common examples of how to 
 
 ## Initialize the Database
 
-```javascript
-import { NaroDB } from '@narodb/naro';
+Create a single NaroDB instance and export it for use throughout your application:
 
-// Initialize the database
-const db = new NaroDB("my-database-name");
+```javascript
+// db.js
+import { Naro } from '@narodb/naro';
+
+// Initialize once
+const db = new Naro("my-database-name");
+
+// Export as singleton
+export default db;
 ```
 
-::: info
-- A good practice is to initialize the database in a separate file and import it wherever needed.
-- The database name can be any string, and it will be used to create a local storage key.
-:::
+Then import this instance wherever needed:
+
+```javascript
+// other-file.js
+import db from './db.js';
+
+// Use the shared instance
+const users = await db.getAll('users');
+```
+
+::::: warning
+Creating multiple Naro instances with the same database name can lead to:
+- Data inconsistency
+- Race conditions
+- Unexpected data overwrites
+- Performance issues
+
+Always create one instance and export it for reuse.
+:::::
 
 ---
 
