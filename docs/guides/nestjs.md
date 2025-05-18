@@ -22,44 +22,41 @@ cd project-name
 npm install @narodb/naro
 ```
 
-## Integrating NaroDB with Nest.js
+## Basic Integration
 
-### Create a Database Module
+Here's how to integrate NaroDB with Nest.js:
+
+### Database Configuration
+
+Create a single file to initialize and export the Naro instance:
+
+```typescript
+// src/database/db.ts
+import { Naro } from '@narodb/naro';
+const db = new Naro('nestjsDatabase');
+export default db;
+```
+
+### Create a Simple Module
 
 Create a module to provide NaroDB as a service:
 
 ```typescript
 // src/database/database.module.ts
 import { Module, Global } from '@nestjs/common';
-import { DatabaseService } from './database.service';
+import db from './db';
 
 @Global()
 @Module({
-  providers: [DatabaseService],
-  exports: [DatabaseService],
+  providers: [
+    {
+      provide: 'DATABASE',
+      useValue: db,
+    },
+  ],
+  exports: ['DATABASE'],
 })
 export class DatabaseModule {}
-```
-
-### Create a Database Service
-
-```typescript
-// src/database/database.service.ts
-import { Injectable } from '@nestjs/common';
-import { Naro } from '@narodb/naro';
-
-@Injectable()
-export class DatabaseService {
-  private db: Naro;
-
-  constructor() {
-    this.db = new Naro('nestjsDatabase');
-  }
-
-  getDb(): Naro {
-    return this.db;
-  }
-}
 ```
 
 ### Import the Database Module
@@ -85,82 +82,55 @@ export class AppModule {}
 
 ```typescript
 // src/users/users.service.ts
-import { Injectable } from '@nestjs/common';
-import { DatabaseService } from '../database/database.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './interfaces/user.interface';
+import { Injectable, Inject } from '@nestjs/common';
+import { Naro } from '@narodb/naro';
 
 @Injectable()
 export class UsersService {
   private readonly collection = 'users';
-  
-  constructor(private databaseService: DatabaseService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const db = this.databaseService.getDb();
-    return db.add(this.collection, createUserDto);
+  constructor(@Inject('DATABASE') private db: Naro) {}
+
+  async create(createUserDto: any): Promise<any> {
+    return this.db.add(this.collection, createUserDto);
   }
 
-  async findAll(): Promise<User[]> {
-    const db = this.databaseService.getDb();
-    return db.getAll(this.collection);
+  async findAll(): Promise<any[]> {
+    return this.db.getAll(this.collection);
   }
 
-  async findOne(id: string): Promise<User> {
-    const db = this.databaseService.getDb();
-    return db.get(`${this.collection}/${id}`);
-  }
-
-  async update(id: string, updateUserDto: any): Promise<User> {
-    const db = this.databaseService.getDb();
-    return db.update(`${this.collection}/${id}`, updateUserDto);
-  }
-
-  async remove(id: string): Promise<void> {
-    const db = this.databaseService.getDb();
-    await db.delete(`${this.collection}/${id}`);
+  async findOne(id: string): Promise<any> {
+    return this.db.get(`${this.collection}/${id}`);
   }
 }
 ```
 
-## Complete Example
+## Example Controller
 
-Here's a complete example of a controller using the service:
+Here's a simple controller using the service:
 
 ```typescript
 // src/users/users.controller.ts
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './interfaces/user.interface';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+  async create(@Body() createUserDto: any): Promise<any> {
     return this.usersService.create(createUserDto);
   }
 
   @Get()
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<any[]> {
     return this.usersService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<User> {
+  async findOne(@Param('id') id: string): Promise<any> {
     return this.usersService.findOne(id);
-  }
-
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: any): Promise<User> {
-    return this.usersService.update(id, updateUserDto);
-  }
-
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
-    return this.usersService.remove(id);
   }
 }
 ```
