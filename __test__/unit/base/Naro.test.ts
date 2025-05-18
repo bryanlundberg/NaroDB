@@ -266,6 +266,28 @@ test("update, should throw an error if document is not found", async () => {
   }
 });
 
+test("update, should not overwrite protected fields (path, id, createdAt)", async () => {
+  const db = new Naro(dbName);
+  const initialUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
+
+  const originalId = initialUser.id;
+  const originalPath = initialUser.path;
+  const originalCreatedAt = initialUser.createdAt;
+
+  const afterUser = await db.update(`users/${initialUser.id}`, {
+    name: "John Doe",
+    id: "new-id",
+    path: "users/new-path",
+    createdAt: Date.now()
+  });
+
+  expect(afterUser.id).toBe(originalId);
+  expect(afterUser.path).toBe(originalPath);
+  expect(afterUser.createdAt).toBe(originalCreatedAt);
+
+  expect(afterUser.name).toBe("John Doe");
+});
+
 test("delete, should delete a document from the users collection", async () => {
   const db = new Naro(dbName);
   const newUser = await db.add("users", { name: faker.person.fullName(), phone: faker.phone.number() });
@@ -320,6 +342,11 @@ test("set, should overwrite a document in the users collection", async () => {
 
   const doc = await db.get(`users/999`);
 
+  expect(doc).toBeDefined();
+  if (!doc) {
+    throw new Error("Document not found");
+  }
+
   expect(doc.id).toBe("999");
   expect(doc.name).toBe("John");
   expect(doc.age).toBe(30);
@@ -360,6 +387,3 @@ test("getStructuredCollections, should return the structured collections", async
     products: expect.any(Array)
   });
 })
-
-
-
