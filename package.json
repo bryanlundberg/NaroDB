@@ -10,7 +10,7 @@
     "default": "./dist/index.modern.mjs",
     "types": "./dist/index.d.ts"
   },
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "A simple, fast, and lightweight NoSQL database",
   "keywords": [
     "database",
