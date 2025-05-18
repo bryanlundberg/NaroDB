@@ -21,147 +21,64 @@ npm install express @narodb/naro
 
 Here's how to integrate NaroDB with Express.js:
 
-::: code-group
-```js {2,10-30} [app.js]
-const express = require("express");
-const { Naro } = require("@narodb/naro");
-const app = express();
-const port = 3000;
-
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Initialize NaroDB
-const naro = new Naro("expressDatabase");
-
-// Routes
-app.post("/users", async (req, res) => {
-  try {
-    const newUser = await naro.add("users", req.body);
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.get("/users", async (req, res) => {
-  try {
-    const users = await naro.getAll("users");
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Start server
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
-```
-
-```ts {2,10-30} [app.ts]
-import express from "express";
-import { Naro } from "@narodb/naro";
-const app = express();
-const port = 3000;
-
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Initialize NaroDB
-const naro = new Naro("expressDatabase");
-
-// Routes
-app.post("/users", async (req, res) => {
-  try {
-    const newUser = await naro.add("users", req.body);
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.get("/users", async (req, res) => {
-  try {
-    const users = await naro.getAll("users");
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Start server
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
-```
-:::
-
-## Organizing Your Code
-
-For larger applications, it's better to organize your code into separate files:
 
 ### Database Configuration
 
 ::: code-group
-```js [db.js]
-const { Naro } = require("@narodb/naro");
 
+```ts [ESM]
+// db.js
+import { Naro } from "@narodb/naro";
 const db = new Naro("expressDatabase");
+export default db;
+```
 
+```js [CJS]
+// db.js
+const { Naro } = require("@narodb/naro");
+const db = new Naro("expressDatabase");
 module.exports = db;
 ```
 :::
 
-### Routes
+### Express Server Setup
+
 
 ::: code-group
-```js [routes/users.js]
-const express = require("express");
-const router = express.Router();
-const db = require("../db");
+```ts {2, 8} [ESM]
+import express from "express";
+import db from "./db.js";
+const app = express();
+const port = 3000;
 
-// Create a new user
-router.post("/", async (req, res) => {
+app.post("/users", async (req, res) => {
   try {
-    const newUser = await db.add("users", req.body);
+    const newUser = await db.add("users", { name: "John Doe", age: 30 });
     res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Get all users
-router.get("/", async (req, res) => {
+// Start server
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+```
+```js {2, 8} [CJS]
+const express = require("express");
+const db = require("./db.js");
+const app = express();
+const port = 3000;
+
+app.post("/users", async (req, res) => {
   try {
-    const users = await db.getAll("users");
-    res.json(users);
+    const newUser = await db.add("users", { name: "John Doe", age: 30 });
+    res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
-module.exports = router;
-```
-:::
-
-### Main Application File
-
-::: code-group
-```js [app.js]
-const express = require("express");
-const usersRoutes = require("./routes/users");
-const app = express();
-const port = 3000;
-
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Routes
-app.use("/users", usersRoutes);
 
 // Start server
 app.listen(port, () => {
@@ -173,7 +90,6 @@ app.listen(port, () => {
 In this guide, we explored how to set up and integrate Express.js with NaroDB to create a simple application for
 managing data.
 
-Happy coding!
 
 ## Official Documentation
 
