@@ -91,35 +91,25 @@ export class Naro {
   }
 
   /**
-   * Sends a request to the server using the specified method and parameters.
+   * Makes an HTTP POST request to the server with the specified method and parameters.
    *
    * @param {string} method - The name of the method to be invoked on the server.
-   * @param {any[]} params - The parameters to be sent with the request.
-   * @return {Promise<any>} A promise that resolves to the response data from the server.
-   *
-   * @throws {Error} If the request fails, an error will be thrown by `axios.post`.
-   *
-   * @example
-   * // Example usage:
-   * const response = await this.serverRequest("add", ["users", { name: "John Doe", age: 30 }]);
-   * console.log(response);
-   * // Output: { success: true, result: {
-   * //   name: 'John Doe',
-   * //   age: 30,
-   * //   id: 'mamhun2et7dhc03xx',
-   * //   createdAt: 1747139672390,
-   * //   path: 'users/mamhun2et7dhc03xx'
-   * // } }
+   * @param {any[]} params - The array of parameters to be sent with the request.
+   * @return {Promise<any>} A promise that resolves with the server's response data or the error encountered during the request.
    */
   private async serverRequest(method: string, params: any[]): Promise<any> {
-    const response = await axios.post(this.host, {
-      orgId: this.orgId,
-      projectId: this.projectId,
-      method,
-      params
-    });
+    try {
+      const response = await axios.post(this.host, {
+        orgId: this.orgId,
+        projectId: this.projectId,
+        method,
+        params
+      });
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      return error;
+    }
   }
 
   /**
