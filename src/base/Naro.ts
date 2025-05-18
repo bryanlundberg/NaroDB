@@ -389,7 +389,9 @@ export class Naro {
     const collection = this.core.getCollection(collectionName);
     const itemIndex = _.findIndex(collection, (item: any) => item.id === collectionId);
     if (itemIndex === -1) throw new Error("Item not found");
-    collection[itemIndex] = { ...collection[itemIndex], ...data };
+    const existingDocument = collection[itemIndex];
+    const updateData = _.omit(data, ["id", "path", "createdAt"]);
+    collection[itemIndex] = { ...existingDocument, ...updateData };
     this.core.updateCollection(collectionName, collection);
     return collection[itemIndex];
   }
